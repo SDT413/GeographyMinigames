@@ -1,0 +1,8 @@
+.layout > main {
+  @apply bg-white py-8 px-10;
+}
+.layout .content {
+  @apply relative mx-auto max-w-7xl;
+}
+
+/*# sourceMappingURL=Layout.module.css.map */

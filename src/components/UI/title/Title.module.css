@@ -1,0 +1,9 @@
+.title {
+  @apply font-black text-title-color text-9xl ml-auto leading-tight text-center;
+}
+
+.subtitle {
+  @apply font-bold text-subtitle-color text-7xl  ml-auto leading-tight text-center;
+}
+
+/*# sourceMappingURL=Title.module.css.map */

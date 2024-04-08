@@ -1,0 +1,21 @@
+.search {
+  @apply relative w-2/6;
+}
+.search > div {
+  @apply relative;
+}
+.search::before {
+  content: "";
+  width: 120%;
+  height: 120%;
+  padding-top: 120%;
+  @apply bg-light-green rounded-full absolute -top-[280%] -left-[10%];
+}
+.search .input {
+  @apply w-full h-full rounded-full bg-light-green;
+  @apply pl-8 pr-4 py-2 text-sm font-medium text-black;
+  @apply text-sm font-medium text-black;
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-light-green;
+}
+
+/*# sourceMappingURL=Search.module.css.map */
