@@ -1,13 +1,27 @@
 import React, {FC} from 'react';
 import Layout from "@/components/UI/Layout";
 import Title from "@/components/UI/title/Title";
+import MenuButton from "@/components/menu-button/MenuButton";
 
 const MainMenu: FC = () => {
     return (
         <div>
-            <Layout title="Home"
-                    description={"More than just great coffee. Explore the menu, sign up for Starbucks® Rewards, manage your gift card and more."}>
+            <Layout title="Geography game"
+                    description={"Everything you need to know about geography"}>
                 <Title title={"Geography"} subtitle={"Minigames"}/>
+                <MenuButton>
+                    Start Game
+                </MenuButton>
+                <MenuButton>
+                    Play Mode
+                </MenuButton>
+                <MenuButton>
+                    Difficulty
+                </MenuButton>
+                <MenuButton>
+                    Review Game Map
+                </MenuButton>
+
             </Layout>
         </div>
     );

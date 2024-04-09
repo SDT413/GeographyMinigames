@@ -1,11 +1,11 @@
-import React, {FC} from 'react';
-import styles from './BackgroundImage.module.scss';
+import React, {FC, PropsWithChildren} from 'react';
+import styles from './MenuButton.module.scss';
 
-const MenuButton: FC = () => {
+const MenuButton: FC<PropsWithChildren<{}>> = ({children}) => {
     return (
-        <div className={styles.image}>
-
-        </div>
+        <button className={styles.button}>
+            {children}
+        </button>
     );
 };
 

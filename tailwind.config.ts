@@ -11,7 +11,9 @@ const constants = {
   'beige': '#A49B8F',
   'dark-beige': '#8F8A7E',
   'title-color': '#5B25CE',
-  'subtitle-color': '#FF0000'
+  'subtitle-color': '#FF0000',
+  'button-orange': '#FF7A00',
+  'button-orange-hover': '#FFA500',
 }
 
 const config: Config = {
