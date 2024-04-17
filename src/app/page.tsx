@@ -1,5 +1,7 @@
 "use client";
-import MainMenu from "@/components/main-menu/MainMenu";
+
+import MainMenu from "@/components/menu-states/main-menu/MainMenu";
+
 export default function HomePage() {
   return (
    <MainMenu/>
