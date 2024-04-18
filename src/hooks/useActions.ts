@@ -1,12 +1,14 @@
-import {cartSlice} from "@/store/cart/cart.slice";
 import {useDispatch} from "react-redux";
 import {bindActionCreators} from "redux";
 import {useMemo} from "react";
-import {productSliderSlice} from "@/store/product_selector/product_slider.slice";
+import {configSlice} from "@/store/config/config,slice";
+import {questionsSlice} from "@/store/questions/questions.slice";
+import {gameInfoSlice} from "@/store/game-info/gameInfo.slice";
 
 const rootAction = {
-    ...cartSlice.actions,
-    ...productSliderSlice.actions
+    ...configSlice.actions,
+    ...gameInfoSlice.actions,
+    ...questionsSlice.actions
 }
 
 export const useActions = () => {

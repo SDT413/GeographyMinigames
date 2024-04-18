@@ -9,9 +9,10 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZGs0MTMiLCJhIjoiY2xmN2I0Z3ppMDBwZjN2cDcxMXBpe
 
 interface MapProps {
     addStyles?: string;
+    onClick?: () => void;
 }
 
-const Map: FC<MapProps> = ({addStyles}) => {
+const Map: FC<MapProps> = ({addStyles, onClick}) => {
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);

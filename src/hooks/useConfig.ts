@@ -4,8 +4,12 @@ import {useMemo} from "react";
 export const useConfig = () => {
     const {
         difficulty,
-        mode,
-        custom
+        questionsDiff,
+        helperPunishment,
+        helperEfficiency,
+        time,
+        questionsAmount,
+        mode
     } = useTypedSelector(state => state.config);
-    return useMemo(() => ({ difficulty, mode, custom }), [difficulty, mode, custom]);
+    return useMemo(() => ({ difficulty, questionsDiff, helperPunishment, helperEfficiency, time, questionsAmount, mode }), [difficulty, questionsDiff, helperPunishment, helperEfficiency, time, questionsAmount, mode]);
 }

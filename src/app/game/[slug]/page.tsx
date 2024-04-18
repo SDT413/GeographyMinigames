@@ -10,7 +10,7 @@ interface PageProps {
 const ProductPage: NextPage<PageProps> = ({params}) => {
 
     return (
-        <GameScreen gamemode={params.slug}/>
+        <GameScreen gameMode={params.slug}/>
     );
 };
 

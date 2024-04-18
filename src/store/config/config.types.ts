@@ -1,9 +1,12 @@
 export interface IConfigInitialState {
     difficulty: "easy" | "medium" | "hard" | "custom";
     mode: "shapes" | "countries" | "capitals" | "currencies";
-    custom?: {
-        questions: number;
-        time: number;
-    }
+    // if difficulty is custom:
+    questionsDiff: "easy" | "medium" | "hard";
+    helperPunishment: "easy" | "medium" | "hard";
+    helperEfficiency: "easy" | "medium" | "hard";
+    time: "easy" | "medium" | "hard";
+    questionsAmount: "easy" | "medium" | "hard";
+
 }
 
