@@ -23,9 +23,9 @@ export const DiffToNumbersConverter = (config: IConfigInitialState) => {
     let timeMediumModifier = 4;
     let timeHardModifier = 5;
 
-    let questionsAmountEasyModifier = 2;
-    let questionsAmountMediumModifier = 3;
-    let questionsAmountHardModifier = 4;
+    let questionsAmountEasyModifier = 3;
+    let questionsAmountMediumModifier = 4;
+    let questionsAmountHardModifier = 5;
 
     if (config.difficulty === "easy") {
         return {
