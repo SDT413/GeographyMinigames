@@ -7,102 +7,122 @@ export const DiffToNumbersConverter = (config: IConfigInitialState) => {
     let time: number;
     let questionsAmount: number;
 
+    let questionsDiffEasyModifier = 3;
+    let questionsDiffMediumModifier = 4;
+    let questionsDiffHardModifier = 5;
+
+    let helperPunishmentEasyModifier = 3;
+    let helperPunishmentMediumModifier = 4;
+    let helperPunishmentHardModifier = 5;
+
+    let helperEfficiencyEasyModifier = 3;
+    let helperEfficiencyMediumModifier = 4;
+    let helperEfficiencyHardModifier = 5;
+
+    let timeEasyModifier = 3;
+    let timeMediumModifier = 4;
+    let timeHardModifier = 5;
+
+    let questionsAmountEasyModifier = 2;
+    let questionsAmountMediumModifier = 3;
+    let questionsAmountHardModifier = 4;
+
     if (config.difficulty === "easy") {
         return {
-            questionsDiff: 1,
-            helperPunishment: 1,
-            helperEfficiency: 1,
-            time: 1,
-            questionsAmount: 1
+            questionsDiff: questionsDiffEasyModifier,
+            helperPunishment: helperPunishmentEasyModifier,
+            helperEfficiency: helperEfficiencyEasyModifier,
+            time: timeEasyModifier,
+            questionsAmount: questionsAmountEasyModifier
         }
     }
     if (config.difficulty === "medium") {
         return {
-            questionsDiff: 2,
-            helperPunishment: 2,
-            helperEfficiency: 2,
-            time: 2,
-            questionsAmount: 2
+            questionsDiff: questionsDiffMediumModifier,
+            helperPunishment: helperPunishmentMediumModifier,
+            helperEfficiency: helperEfficiencyMediumModifier,
+            time: timeMediumModifier,
+            questionsAmount: questionsAmountMediumModifier
         }
     }
     if (config.difficulty === "hard") {
         return {
-            questionsDiff: 3,
-            helperPunishment: 3,
-            helperEfficiency: 3,
-            time: 3,
-            questionsAmount: 3
+            questionsDiff: questionsDiffHardModifier,
+            helperPunishment: helperPunishmentHardModifier,
+            helperEfficiency: helperEfficiencyHardModifier,
+            time: timeHardModifier,
+            questionsAmount: questionsAmountHardModifier
         }
     }
     if (config.difficulty === "custom") {
     switch (config.questionsDiff) {
         case "easy":
-            questionsDiff = 1;
+            questionsDiff = questionsDiffEasyModifier;
             break;
         case "medium":
-            questionsDiff = 2;
+            questionsDiff = questionsDiffMediumModifier;
             break;
         case "hard":
-            questionsDiff = 3;
+            questionsDiff = questionsDiffHardModifier;
             break;
         default:
-            questionsDiff = 1;
+            questionsDiff = questionsDiffEasyModifier
     }
 
     switch (config.helperPunishment) {
         case "easy":
-            helperPunishment = 1;
+            helperPunishment = helperPunishmentEasyModifier;
             break;
         case "medium":
-            helperPunishment = 2;
+            helperPunishment = helperPunishmentMediumModifier;
             break;
         case "hard":
-            helperPunishment = 3;
+            helperPunishment = helperPunishmentHardModifier;
             break;
         default:
-            helperPunishment = 1;
+            helperPunishment = helperPunishmentEasyModifier;
     }
 
     switch (config.helperEfficiency) {
         case "easy":
-            helperEfficiency = 1;
+            helperEfficiency = helperEfficiencyEasyModifier;
             break;
         case "medium":
-            helperEfficiency = 2;
+            helperEfficiency = helperEfficiencyMediumModifier;
             break;
         case "hard":
-            helperEfficiency = 3;
+            helperEfficiency = helperEfficiencyHardModifier;
             break;
         default:
-            helperEfficiency = 1;
+            helperEfficiency = helperEfficiencyEasyModifier;
     }
 
     switch (config.time) {
         case "easy":
-            time = 10;
+            time = timeEasyModifier;
             break;
         case "medium":
-            time = 5;
+            time = timeMediumModifier;
             break;
         case "hard":
-            time = 2;
+            time = timeHardModifier;
             break;
         default:
-            time = 10;
+            time = timeEasyModifier;
     }
 
     switch (config.questionsAmount) {
         case "easy":
-            questionsAmount = 1;
+            questionsAmount = questionsAmountEasyModifier;
             break;
         case "medium":
-            questionsAmount = 2;
+            questionsAmount = questionsAmountMediumModifier;
             break;
         case "hard":
-            questionsAmount = 3;
+            questionsAmount = questionsAmountHardModifier;
             break;
         default:
-            questionsAmount = 1;
+            questionsAmount = questionsAmountEasyModifier;
     }
     return {
         questionsDiff,

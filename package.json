@@ -15,11 +15,14 @@
     "@emotion/styled": "^11.11.5",
     "@reduxjs/toolkit": "^2.2.3",
     "@tanstack/react-query": "^5.29.0",
+    "@types/country-data": "^0.0.5",
     "@types/mapbox-gl": "^3.1.0",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
     "clsx": "^2.1.0",
+    "country-data": "^0.0.31",
     "framer-motion": "^11.0.25",
+    "get-countries-info": "^1.2.1",
     "mapbox-gl": "^3.3.0",
     "next": "14.1.4",
     "react": "^18",
@@ -27,7 +30,9 @@
     "react-mapbox-gl": "^5.1.1",
     "redux-persist": "^6.0.0",
     "redux-ts": "^4.3.0",
-    "sass": "^1.74.1"
+    "sass": "^1.74.1",
+    "which-country": "^1.0.0",
+    "world-countries-capitals": "^3.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",

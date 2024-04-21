@@ -2,6 +2,7 @@ export interface IQuestionsInitialState {
     questions: IQuestion[] | IShape[];
 
     currentQuestion: IQuestion | IShape | null;
+    currentQuestionIndex: number;
     questionsLeft: number;
 
 }

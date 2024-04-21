@@ -7,6 +7,7 @@ const initialState: IQuestionsInitialState = {
     questions: [],
 
     currentQuestion: null,
+    currentQuestionIndex: 0,
     questionsLeft: 0
 }
 
@@ -19,6 +20,13 @@ export const questionsSlice = createSlice({
         },
         setCurrentQuestion: (state, action: PayloadAction<IQuestionsInitialState['currentQuestion']>) => {
             state.currentQuestion = action.payload;
+        },
+        setInitCurrentQuestion: (state) => {
+            state.currentQuestionIndex = 0;
+            state.currentQuestion = state.questions[state.currentQuestionIndex];
+        },
+        setNextQuestion: (state) => {
+            state.currentQuestion = state.questions[state.currentQuestionIndex + 1];
         },
         setQuestionsLeft: (state, action: PayloadAction<IQuestionsInitialState['questionsLeft']>) => {
             state.questionsLeft = action.payload;

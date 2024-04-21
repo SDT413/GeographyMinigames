@@ -24,15 +24,12 @@ export const TakeRandomShapes = (shapes: IShape[], amount: number) => {
 export const PrepareShapes = (gameMode: string, difficulty: string, amount: number) => {
     if (gameMode === "shapes") {
         if (difficulty === "easy") {
-            console.log(TakeRandomShapes(easyShapesData, amount))
             return TakeRandomShapes(easyShapesData, amount)
         }
         if (difficulty === "medium") {
-            console.log(TakeRandomShapes(mediumShapesData, amount))
             return TakeRandomShapes(easyShapesData, amount)
         }
         if (difficulty === "hard") {
-            console.log(TakeRandomShapes(hardShapesData, amount))
             return TakeRandomShapes(easyShapesData, amount)
         }
     }

@@ -73,8 +73,6 @@ const config: Config = {
           '100%': { transform: 'rotate(0.0deg)' },
         },
         animation: {
-          opacity: 'animateOpacity 0.3s ease-in-out',
-          scaleIn: 'scaleIn 0.3s ease-in-out'
         },
       },
       backgroundImage: {
