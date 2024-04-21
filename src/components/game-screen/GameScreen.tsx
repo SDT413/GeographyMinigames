@@ -50,6 +50,7 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const checkAnswer = (answer: string, correctAnswer: string, gameMode: string) => {
         if (questions.questions.length < questions.currentQuestionIndex + 9) {
             window.location.href = "/statistics"
+            return;
         }
         console.log(answer, correctAnswer)
             if (gameMode === "shapes") {
@@ -112,9 +113,6 @@ const GameScreen: FC<Props> = ({gameMode}) => {
                 <button className={"text-2xl text-white bg-green p-2 rounded-lg ml-auto mr-5"}>
                     Use Helper
                 </button>
-                <MenuButton link={"/statistics"} addStyles={"mr-5"}>
-                    end game
-                </MenuButton>
                 <span className={"text-2xl text-white bg-green p-2 rounded-lg ml-auto mr-5"}>
                    Time: {gameInfo.time}
                 </span>
