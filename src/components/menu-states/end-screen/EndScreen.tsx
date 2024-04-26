@@ -3,8 +3,11 @@ import styles from './EndScreen.module.scss';
 import MenuButton from "@/components/UI/menu-button/MenuButton";
 import LayoutEnd from "@/components/UI/ylayout/end-layout/LayoutEnd";
 import Title from "@/components/UI/title/Title";
+import {useGameInfo} from "@/hooks/useGameInfo";
 
 const EndScreen: FC = () => {
+    const gameInfo = useGameInfo()
+    console.log("gameInfo", gameInfo)
     return (
         <div className={styles.container}>
             <LayoutEnd title=""
@@ -14,16 +17,16 @@ const EndScreen: FC = () => {
                 <div className={styles.buttons}>
                     <Title title={"Congratulations"} subtitle={"you won"} classNameTitle={"text-7xl"} classNameSubtitle={"text-5xl"}/>
                 <MenuButton addStyles={styles.wideButton}>
-                    Score: 1
+                    Score: {gameInfo.score}
                 </MenuButton>
                 <MenuButton addStyles={styles.wideButton}>
-                    Failed: 0
+                    Failed: {gameInfo.failed}
                 </MenuButton>
                 <MenuButton addStyles={styles.wideButton}>
-                    Time: 10:00
+                    Time: {gameInfo.time}
                 </MenuButton>
                 <MenuButton addStyles={styles.wideButton}>
-                    Helper used: 0
+                    Helper used: {gameInfo.helperUsed}
                 </MenuButton>
                 <MenuButton addStyles={styles.wideButton} link={'/'}>
                     Back to main menu

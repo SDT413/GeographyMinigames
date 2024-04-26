@@ -35,10 +35,6 @@ export const mediumCapitalsData: IQuestion[] = [
         correct_answer: 'Mexico City'
     },
     {
-        question: 'What is the capital of Russia?',
-        correct_answer: 'Moscow'
-    },
-    {
         question: 'What is the capital of South Korea?',
         correct_answer: 'Seoul'
     },

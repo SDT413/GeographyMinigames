@@ -26,14 +26,17 @@ export const gameInfoSlice = createSlice({
         setHelperUsed: (state, action: PayloadAction<IGameInfoInitialState['helperUsed']>) => {
             state.helperUsed = action.payload;
         },
-        increseScore: (state) => {
+        increaseScore: (state) => {
+            console.log("Increased score: ", state.score)
             state.score += 1;
         },
-        increseFailed: (state) => {
+        increaseFailed: (state) => {
+            console.log("Increased failed: ", state.failed)
             state.failed += 1;
         },
-        increseHelperUsed: (state) => {
+        increaseHelperUsed: (state) => {
+            console.log("Increased helper used: ", state.helperUsed)
             state.helperUsed += 1;
-        }
     }
+}
 });

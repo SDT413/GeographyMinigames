@@ -9,6 +9,7 @@ import infoCountries from 'get-countries-info';
 import {countries} from 'country-data';
 import classNames from "classnames";
 import styles from './Map.module.scss';
+import {useQuestions} from "@/hooks/useQuestions";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGs0MTMiLCJhIjoiY2xmN2I0Z3ppMDBwZjN2cDcxMXBpeW92MyJ9.P4O2mbHyviXylMkyk1C3zw';
 
@@ -17,18 +18,19 @@ interface MapProps {
     onClick?: () => void;
     correctAnswer?: string;
     mapStyle?: string;
-    setCurrentQuestionState?: any;
     gameMode?: string;
+    index?: number;
     onCheckAnswer?: (answer: string, correctAnswer: string, gameMode: string) => void;
 }
 
-const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, correctAnswer, setCurrentQuestionState, gameMode, onCheckAnswer}) => {
+const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, correctAnswer, gameMode, onCheckAnswer}) => {
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
     const [lat, setLat] = useState(42.35);
     const [zoom, setZoom] = useState(4.5);
     useEffect(() => {
+        map.current?.on('click', onMapClick);
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current!,
@@ -36,20 +38,18 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, correctAnswer, setCurr
             center: [lng, lat],
             zoom: zoom
         });
-        map.current?.on('click', onMapClick);
     });
 
     const onMapClick = async (e: mapboxgl.MapMouseEvent) => {
         const {lng, lat} = e.lngLat;
         const alpha3 = await getCountryAlpha3(lng, lat);
-       /* console.log('alpha3:', alpha3);
-        console.log('country:',  getCountryName(alpha3));
-        console.log('capital:', getCountryCapital(alpha3));
-        console.log('currency:', getCountryCurrency(alpha3));*/
-
+        if (!correctAnswer) {
+            return;
+        }
         if (onClick){
             onClick();
         }
+        console.log('gameMode:', gameMode);
         if (gameMode === "shapes" && onCheckAnswer && correctAnswer) {
             onCheckAnswer(getCountryName(alpha3), correctAnswer, gameMode)
         }
