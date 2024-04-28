@@ -17,16 +17,17 @@ interface MapProps {
     addStyles?: string;
     onClick?: () => void;
     mapStyle?: string;
+    gameMode?: string;
+    setAnswer?: (answer: string) => void;
 }
 
-const Map: FC<MapProps> = ({addStyles, onClick, mapStyle}) => {
+const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode}) => {
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
     const [lat, setLat] = useState(42.35);
     const [zoom, setZoom] = useState(4.5);
     useEffect(() => {
-        map.current?.on('click', onMapClick);
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current!,
@@ -34,11 +35,31 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle}) => {
             center: [lng, lat],
             zoom: zoom
         });
+        map.current?.on('click', onMapClick);
     });
 
     const onMapClick = async (e: mapboxgl.MapMouseEvent) => {
+        const {lng, lat} = e.lngLat;
+        const alpha3 = await getCountryAlpha3(lng, lat);
         if (onClick){
             onClick();
+        }
+        console.log('gameMode:', gameMode);
+        if (gameMode === "shapes" && setAnswer) {
+            console.log('setAnswer:', getCountryName(alpha3));
+            setAnswer(getCountryName(alpha3))
+        }
+        if (gameMode === "countries" && setAnswer) {
+            console.log('setAnswer:', getCountryName(alpha3));
+            setAnswer(getCountryName(alpha3))
+        }
+        if (gameMode === "capitals" && setAnswer) {
+            console.log('setAnswer:', getCountryCapital(alpha3));
+            setAnswer(getCountryCapital(alpha3))
+        }
+        if (gameMode === "currencies" && setAnswer) {
+            console.log('setAnswer:', getCountryCurrency(alpha3));
+            setAnswer(getCountryCurrency(alpha3))
         }
     }
 

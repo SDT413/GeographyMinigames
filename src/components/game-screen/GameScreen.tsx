@@ -1,5 +1,7 @@
-"use client";
-import React, {FC, useState} from 'react';
+'use client'
+
+import { useRouter } from 'next/navigation'
+import React, {FC, useEffect, useState} from 'react';
 import MenuButton from "@/components/UI/menu-button/MenuButton";
 import styles from './GameScreen.module.scss';
 import LayoutGame from "@/components/UI/ylayout/game-layout/LayoutGame";
@@ -13,6 +15,7 @@ import {PrepareQuestions} from "@/components/utils/PrepareQuestions";
 import {PrepareShapes} from "@/components/utils/PrepareShapes";
 import {PrepareMapStyle} from "@/components/utils/PrepareMapStyle";
 import {IQuestion, IShape} from "@/store/questions/questions.types";
+import MapGame from "@/components/map/MapGame";
 
 interface Props {
     gameMode: string
@@ -23,9 +26,9 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const styles_for_question = "text-5xl text-white mr-5"
     const {setQuestions, setQuestionsLeft, decreaseQuestionsLeft, setInitCurrentQuestion, setNextQuestion, increaseScore, increaseFailed, setTime} = useActions()
     const questions = useQuestions()
-    console.log("Questions index first show", questions.currentQuestionIndex)
     const gameInfo = useGameInfo()
     const config = useConfig()
+    const router = useRouter()
 
     const {questionsDiff, helperPunishment, helperEfficiency, time, questionsAmount} = DiffToNumbersConverter(config);
 
@@ -34,37 +37,82 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const mode_questions = PrepareQuestions(gameMode, mode_diff, questionsAmount)
     const mode_shapes = PrepareShapes(gameMode, mode_diff, questionsAmount)
 
-    const [currentQuestion, setCurrentQuestionState] = useState(mode_questions[0])
-    const [currentShape, setCurrentShape] = useState(mode_shapes[0])
+    const [gameStarted, setGameStarted] = useState<boolean>(false)
 
-    useState(() => {
-        setQuestions(mode_questions)
+    const [currentQuestion, setCurrentQuestionState] = useState(mode_questions[0] as IQuestion)
+    const [currentShape, setCurrentShape] = useState(mode_shapes[0] as IShape)
+
+    const [answer, setAnswer] = useState<string>("")
+
+
+    useEffect(() => {
+        if (mode_questions.length !== 0) {
+            setQuestions(mode_questions)
+        }
+        else {
+            setQuestions(mode_shapes)
+        }
         setQuestionsLeft(questionsAmount)
         setInitCurrentQuestion()
-        console.log("UseEffect worked")
         setTime(time)
-        console.log("mode_questions", mode_questions)
-        console.log(mode_shapes)
-    })
+        setGameStarted(true)
+        /*console.log("UseEffect worked")*/
+    }, [])
 
-    const checkAnswer = (answer: string, correctAnswer: string, gameMode: string) => {
-        if (questions.questions.length === questions.currentQuestionIndex + 1) {
-            window.location.href = "/statistics"
+    useEffect(() => {
+        if (!gameStarted) {
             return;
         }
+       /* console.log("Current question index", questions.currentQuestionIndex)*/
+        setCurrentQuestionState(questions.questions[questions.currentQuestionIndex] as IQuestion)
+        setCurrentShape(questions.questions[questions.currentQuestionIndex] as IShape)
+    }, [gameStarted, questions.currentQuestionIndex])
+
+    useEffect(() => {
+        if (!gameStarted) {
+            return;
+        }
+        if (answer) {
+            if (gameMode === "shapes" || gameMode === "currencies") {
+                checkAnswer(answer, currentShape.country, gameMode)
+
+            }
+            else if (gameMode === "countries" || gameMode === "capitals") {
+                checkAnswer(answer, currentQuestion.correct_answer, gameMode)
+            }
+        }
+            console.log("Answer checked", answer)
+    }, [gameStarted, answer, gameMode])
+
+    useEffect(() => {
+        if (!gameStarted) {
+            return;
+        }
+        /*console.log("Questions Left check", questions.questionsLeft)*/
+        if (questions.questionsLeft === 0) {
+            router.push('/statistics')
+            return;
+        }
+    }, [gameStarted, questions.questionsLeft])
+
+    const checkAnswer = (answer: string, correctAnswer: string, gameMode: string) => {
+       /* if (questions.questionsLeft === 1) {
+            router.push('/statistics')
+            return;
+        }*/
         console.log(answer, correctAnswer)
-            if (gameMode === "shapes") {
-                checkIShape(answer, correctAnswer)
-            }
-            if (gameMode === "countries") {
-                checkIQuestion(answer, correctAnswer)
-            }
-            if (gameMode === "capitals") {
-               checkIQuestion(answer, correctAnswer)
-            }
-            if (gameMode === "currencies") {
-               checkIQuestion(answer, correctAnswer)
-            }
+        if (gameMode === "countries") {
+            checkIQuestion(answer, correctAnswer)
+        }
+        if (gameMode === "capitals") {
+            checkIQuestion(answer, correctAnswer)
+        }
+        if (gameMode === "shapes") {
+            checkIShape(answer, correctAnswer)
+        }
+        if (gameMode === "currencies") {
+            checkIShape(answer, correctAnswer)
+        }
     }
 
     const checkIQuestion = (answer: string, correctAnswer: string) => {
@@ -72,14 +120,12 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             increaseScore()
             decreaseQuestionsLeft()
             setNextQuestion()
-            setCurrentQuestionState(questions.questions[questions.currentQuestionIndex + 1] as IQuestion)
-            console.log("Correct")
+            setCurrentQuestionState(questions.questions[questions.currentQuestionIndex] as IQuestion)
         } else {
             increaseFailed()
             decreaseQuestionsLeft()
             setNextQuestion()
-            setCurrentQuestionState(questions.questions[questions.currentQuestionIndex + 1] as IQuestion)
-            console.log("Incorrect")
+            setCurrentQuestionState(questions.questions[questions.currentQuestionIndex] as IQuestion)
         }
     }
 
@@ -88,14 +134,12 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             increaseScore()
             decreaseQuestionsLeft()
             setNextQuestion()
-            setCurrentShape(questions.questions[questions.currentQuestionIndex + 1] as IShape)
-            console.log("Correct")
+            setCurrentShape(questions.questions[questions.currentQuestionIndex] as IShape)
         } else {
             increaseFailed()
             decreaseQuestionsLeft()
             setNextQuestion()
-            setCurrentShape(questions.questions[questions.currentQuestionIndex + 1] as IShape)
-            console.log("Incorrect")
+            setCurrentShape(questions.questions[questions.currentQuestionIndex] as IShape)
         }
     }
 
@@ -118,15 +162,15 @@ const GameScreen: FC<Props> = ({gameMode}) => {
                 </span>
                 {
                     gameMode === "shapes" ?
-                    <Map addStyles={styles.map} mapStyle={mapStyle} gameMode={gameMode} correctAnswer={currentShape.country} onCheckAnswer={checkAnswer}/>
-                :
-                    gameMode === "countries" ?
-                    <Map addStyles={styles.map} mapStyle={mapStyle} gameMode={gameMode} correctAnswer={currentQuestion.correct_answer} onCheckAnswer={checkAnswer}/>
-                : gameMode === "capitals" ?
-                    <Map addStyles={styles.map} mapStyle={mapStyle} gameMode={gameMode} correctAnswer={currentQuestion.correct_answer} onCheckAnswer={checkAnswer}/>
-                : gameMode === "currencies" ?
-                    <Map addStyles={styles.map} mapStyle={mapStyle} gameMode={gameMode} correctAnswer={currentQuestion.correct_answer} onCheckAnswer={checkAnswer}/>
-                    : <Map addStyles={styles.map} mapStyle={mapStyle}/>
+                        <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
+                        :
+                        gameMode === "countries" ?
+                            <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
+                            : gameMode === "capitals" ?
+                                <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
+                                : gameMode === "currencies" ?
+                                    <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
+                                    : <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
                 }
             </LayoutGame>
         </div>

@@ -29,8 +29,10 @@ export const questionsSlice = createSlice({
             console.log("Set init current question: ", state.currentQuestion)
         },
         setNextQuestion: (state) => {
-            state.currentQuestionIndex += 1;
-            state.currentQuestion = state.questions[state.currentQuestionIndex];
+            if (state.currentQuestionIndex !== state.questions.length - 1) {
+                state.currentQuestionIndex += 1;
+                state.currentQuestion = state.questions[state.currentQuestionIndex];
+            }
             console.log("Set next question: ", state.currentQuestion, "Index: ", state.currentQuestionIndex)
         },
         setQuestionsLeft: (state, action: PayloadAction<IQuestionsInitialState['questionsLeft']>) => {
