@@ -11,7 +11,7 @@ const ModesSelection: FC = () => {
     const {setConfigMode} = useActions()
     const config = useConfig()
     const [mapStyle, setMapStyle] = useState(PrepareMapStyle(config.mode))
-    const [showShapes, setShowShapes] = useState(true)
+    const [rerender, setRerender] = useState(false)
     return (
         <div className={styles.container}>
             <LayoutMenuWide title=""
@@ -22,7 +22,7 @@ const ModesSelection: FC = () => {
                     <MenuButton addStyles={styles.wideButton} onClick={() => {
                         setConfigMode("shapes")
                         setMapStyle(PrepareMapStyle("shapes"))
-                        setShowShapes(true)
+                        setRerender(true)
                         console.log("shapes")
                     }} selected={config.mode === "shapes"}>
                         Shapes
@@ -30,21 +30,21 @@ const ModesSelection: FC = () => {
                     <MenuButton addStyles={styles.wideButton} onClick={() => {
                         setConfigMode("capitals")
                         setMapStyle(PrepareMapStyle("capitals"))
-                        setShowShapes(false)
+                        setRerender(true)
                     }} selected={config.mode === "capitals"}>
                         Capital cities
                     </MenuButton>
                     <MenuButton addStyles={styles.wideButton} onClick={() => {
                         setConfigMode("countries")
                         setMapStyle(PrepareMapStyle("countries"))
-                        setShowShapes(false)
+                        setRerender(true)
                     }} selected={config.mode === "countries"}>
                         Countries
                     </MenuButton>
                     <MenuButton addStyles={styles.wideButton} onClick={() => {
                         setConfigMode("currencies")
                         setMapStyle(PrepareMapStyle("currencies"))
-                        setShowShapes(true)
+                        setRerender(true)
                     }} selected={config.mode === "currencies"}>
                         Currencies
                     </MenuButton>
@@ -57,13 +57,9 @@ const ModesSelection: FC = () => {
                     </MenuButton>
                 </div>
                 <br/>
-                {
-                    showShapes ? <Map addStyles={styles.map} mapStyle={mapStyle}/> :
-                        <>
-                            <Map addStyles={styles.map} mapStyle={mapStyle}/>
-                        </>
-
-                }
+                <div className={styles.mapContainer}>
+                   <Map addStyles={styles.map} mapStyle={mapStyle} allowRerender={rerender} setRerender={setRerender}/>
+                </div>
             </LayoutMenuWide>
         </div>
     );

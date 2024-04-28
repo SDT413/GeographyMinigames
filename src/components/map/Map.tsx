@@ -14,12 +14,14 @@ import {useQuestions} from "@/hooks/useQuestions";
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGs0MTMiLCJhIjoiY2xmN2I0Z3ppMDBwZjN2cDcxMXBpeW92MyJ9.P4O2mbHyviXylMkyk1C3zw';
 
 interface MapProps {
-    addStyles?: string;
-    onClick?: () => void;
-    mapStyle?: string;
+    addStyles?: string,
+    onClick?: () => void,
+    mapStyle?: string,
+    allowRerender?: boolean
+    setRerender?: (rerender: boolean) => void
 }
 
-const Map: FC<MapProps> = ({addStyles, onClick, mapStyle}) => {
+const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, allowRerender, setRerender}) => {
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(-70.9);
@@ -27,7 +29,11 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle}) => {
     const [zoom, setZoom] = useState(4.5);
     useEffect(() => {
         map.current?.on('click', onMapClick);
-        if (map.current) return; // initialize map only once
+       /* if (map.current) return; // initialize map only once*/
+       if (allowRerender === true) {
+           setRerender!(false);
+       }
+       if (map.current && allowRerender === false) return; // initialize map only once
         map.current = new mapboxgl.Map({
             container: mapContainer.current!,
             style: mapStyle || 'mapbox://styles/mapbox/streets-v12',
@@ -37,7 +43,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle}) => {
     });
 
     const onMapClick = async (e: mapboxgl.MapMouseEvent) => {
-        if (onClick){
+        if (onClick) {
             onClick();
         }
     }
@@ -45,9 +51,9 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle}) => {
     const getCountryAlpha3 = async (lng: number, lat: number) => {
         const country = wc([lng, lat]);
         if (country) {
-           return country;
-       }
-         return "";
+            return country;
+        }
+        return "";
 
     }
 
@@ -57,7 +63,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle}) => {
             country = countries[alpha3.toLowerCase()];
         }
         let result = country.name;
-        if(country.name === "Russian Federation") result = "Russia";
+        if (country.name === "Russian Federation") result = "Russia";
         if (country.name === "Tanzania, United Republic Of") result = "Tanzania";
         if (country.name === "Viet Nam") result = "Vietnam";
         if (country.name === "Korea, Republic Of") result = "South Korea";
