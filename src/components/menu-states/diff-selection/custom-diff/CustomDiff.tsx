@@ -4,6 +4,8 @@ import MenuButton from "@/components/UI/menu-button/MenuButton";
 import GridLayout from "@/components/UI/ylayout/grid-layout/GridLayout";
 import {useConfig} from "@/hooks/useConfig";
 import {useActions} from "@/hooks/useActions";
+import CustomDiffButton from "@/components/UI/menu-button/custom-diff button/CustomDiffButton";
+import CustomDiffRow from "@/components/menu-states/diff-selection/custom-diff/custom-diff-row/CustomDiffRow";
 
 const CustomDiff: FC = () => {
     const config = useConfig()
@@ -14,38 +16,12 @@ const CustomDiff: FC = () => {
                         description={""}
                         addStyles={""}
             >
-                    <MenuButton addStyles={styles.wideButton} onClick={() => {
-                        setCustomQuestionsDiff("easy")
-                        console.log("easy")
-                    }}>
-                     Popups difficultly
-                    </MenuButton>
+                <CustomDiffRow setParam={setCustomQuestionsDiff} paramName={"Popups difficultly"} easySelectedParam={config.questionsDiff === "easy"} mediumSelectedParam={config.questionsDiff === "medium"} hardSelectedParam={config.questionsDiff === "hard"} />
+                <CustomDiffRow setParam={setCustomHelperPunishment} paramName={"Punishment for Helper"} easySelectedParam={config.helperPunishment === "easy"} mediumSelectedParam={config.helperPunishment === "medium"} hardSelectedParam={config.helperPunishment === "hard"} />
+                <CustomDiffRow setParam={setCustomHelperEfficiency} paramName={"Helper Efficiency"} easySelectedParam={config.helperEfficiency === "easy"} mediumSelectedParam={config.helperEfficiency === "medium"} hardSelectedParam={config.helperEfficiency === "hard"} />
+                <CustomDiffRow setParam={setCustomTime} paramName={"Time to answer"} easySelectedParam={config.time === "easy"} mediumSelectedParam={config.time === "medium"} hardSelectedParam={config.time === "hard"} />
+                <CustomDiffRow setParam={setCustomQuestionsAmount} paramName={"Popups amount"} easySelectedParam={config.questionsAmount === "easy"} mediumSelectedParam={config.questionsAmount === "medium"} hardSelectedParam={config.questionsAmount === "hard"} />
 
-                    <MenuButton addStyles={styles.wideButton} onClick={() => {
-                        setCustomHelperPunishment("easy")
-                        console.log("easy")
-
-                    } }>
-                        Punishment for Helper
-                    </MenuButton>
-                    <MenuButton addStyles={styles.wideButton} onClick={() => {
-                        setCustomHelperEfficiency("easy")
-                        console.log("easy")
-                    }}>
-                        Helper Efficiency
-                    </MenuButton>
-                    <MenuButton addStyles={styles.wideButton} onClick={() => {
-                        setCustomTime("easy")
-                        console.log("easy")
-                    }}>
-                        Time to answer
-                    </MenuButton>
-                    <MenuButton addStyles={styles.wideButton} onClick={() => {
-                        setCustomQuestionsAmount("easy")
-                        console.log("easy")
-                    } }>
-                        Popups amount
-                    </MenuButton>
                 <MenuButton addStyles={""} link={'/'} onClick={
                     () => {
                         console.log(config)

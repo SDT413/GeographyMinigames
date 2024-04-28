@@ -1,0 +1,4 @@
+.button {
+  @apply text-center font-extrabold text-3xl py-2 px-4 rounded-full mt-14;
+  @apply hover:cursor-pointer;
+}

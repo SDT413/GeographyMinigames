@@ -1,0 +1,28 @@
+.wideButton {
+    @apply flex mb-4;
+    width: 600px;
+}
+
+.customButton {
+    @apply flex mb-4;
+    width: 250px;
+    margin-left: 50px;
+}
+
+
+.row {
+    @apply flex;
+    justify-content: space-between;
+}
+
+.colorEasy {
+    @apply bg-easy-custom-color hover:bg-easy-custom-color-hover;
+}
+
+.colorMedium {
+    @apply bg-medium-custom-color hover:bg-medium-custom-color-hover;
+}
+
+.colorHard {
+    @apply bg-hard-custom-color hover:bg-hard-custom-color-hover;
+}

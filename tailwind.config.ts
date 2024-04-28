@@ -14,6 +14,12 @@ const constants = {
   'subtitle-color': '#FF0000',
   'button-orange': '#FF7A00',
   'button-orange-hover': '#FFA500',
+  'easy-custom-color': '#1dc41d',
+  'medium-custom-color': '#ecc00d',
+  'hard-custom-color': '#e11616',
+  'easy-custom-color-hover': '#00ff00',
+  'medium-custom-color-hover': '#ffca00',
+  'hard-custom-color-hover': '#FF0000',
 }
 
 const config: Config = {

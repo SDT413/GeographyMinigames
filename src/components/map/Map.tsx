@@ -25,9 +25,9 @@ interface MapProps {
 const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, allowRerender, setRerender, param_zoom}) => {
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [lng, setLng] = useState(28);
-    const [lat, setLat] = useState(38);
-    const [zoom, setZoom] = useState(param_zoom || 6);
+    const [lng, setLng] = useState(44);
+    const [lat, setLat] = useState(33);
+    const [zoom, setZoom] = useState(param_zoom || 4);
     useEffect(() => {
         map.current?.on('click', onMapClick);
        /* if (map.current) return; // initialize map only once*/

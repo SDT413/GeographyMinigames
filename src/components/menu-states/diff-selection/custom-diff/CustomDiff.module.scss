@@ -5,18 +5,19 @@
     .buttons {
         grid-column: 1 / 2;
     }
-
-    .map {
-        grid-column: 2 / 3;
-       @apply h-96;
-        position: relative;
-    }
 }
-
-
-
 
 .wideButton {
     @apply flex;
     width: 600px;
+}
+
+.row1 {
+    @apply flex;
+    justify-content: space-between;
+}
+
+.row2 {
+    @apply flex;
+    justify-content: space-between;
 }
