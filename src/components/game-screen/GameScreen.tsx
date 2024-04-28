@@ -151,7 +151,9 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             >
                 <span className={styles_for_question}>
                    {
-                          currentQuestion ? currentQuestion.question : currentShape.country
+                       currentShape && currentShape.country }
+                    {
+                       currentQuestion && currentQuestion.question
                    }
                 </span>
                 <button className={"text-2xl text-white bg-green p-2 rounded-lg ml-auto mr-5"}>
