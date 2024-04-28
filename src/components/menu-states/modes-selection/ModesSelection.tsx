@@ -58,7 +58,7 @@ const ModesSelection: FC = () => {
                 </div>
                 <br/>
                 <div className={styles.mapContainer}>
-                   <Map addStyles={styles.map} mapStyle={mapStyle} allowRerender={rerender} setRerender={setRerender}/>
+                   <Map addStyles={styles.map} mapStyle={mapStyle} allowRerender={rerender} setRerender={setRerender} param_zoom={1.75}/>
                 </div>
             </LayoutMenuWide>
         </div>
