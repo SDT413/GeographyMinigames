@@ -43,6 +43,7 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const [currentShape, setCurrentShape] = useState(mode_shapes[0] as IShape)
 
     const [answer, setAnswer] = useState<string>("")
+    const [useHelper, setUseHelper] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -73,11 +74,11 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             return;
         }
         if (answer) {
-            if (gameMode === "shapes" || gameMode === "currencies") {
+            if (gameMode === "shapes") {
                 checkAnswer(answer, currentShape.country, gameMode)
 
             }
-            else if (gameMode === "countries" || gameMode === "capitals") {
+            else if (gameMode === "countries" || gameMode === "capitals" || gameMode === "currencies") {
                 checkAnswer(answer, currentQuestion.correct_answer, gameMode)
             }
         }
@@ -111,7 +112,7 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             checkIShape(answer, correctAnswer)
         }
         if (gameMode === "currencies") {
-            checkIShape(answer, correctAnswer)
+            checkIQuestion(answer, correctAnswer)
         }
     }
 
@@ -156,23 +157,23 @@ const GameScreen: FC<Props> = ({gameMode}) => {
                        currentQuestion && currentQuestion.question
                    }
                 </span>
-                <button className={"text-2xl text-white bg-green p-2 rounded-lg ml-auto mr-5"}>
+                <button className={"text-2xl text-white bg-green p-2 rounded-lg ml-auto mr-5"} onClick={() => setUseHelper(true)}>
                     Use Helper
                 </button>
                 <span className={"text-2xl text-white bg-green p-2 rounded-lg ml-auto mr-5"}>
                    Time: {gameInfo.time}
                 </span>
-                {
+                { gameStarted &&
                     gameMode === "shapes" ?
-                        <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
+                        <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
                         :
                         gameMode === "countries" ?
-                            <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
+                            <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
                             : gameMode === "capitals" ?
-                                <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
+                                <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
                                 : gameMode === "currencies" ?
-                                    <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
-                                    : <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode}/>
+                                    <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
+                                    : <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
                 }
             </LayoutGame>
         </div>

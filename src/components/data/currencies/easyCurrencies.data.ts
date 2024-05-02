@@ -2,87 +2,71 @@ import {IQuestion} from "@/store/questions/questions.types";
 
 export const easyCurrenciesData: IQuestion[] = [
     {
-            question: 'What is the currency of the USA?',
-            correct_answer: 'USD'
+            question: 'Where USD is main currency?',
+            correct_answer: 'United States'
         },
         {
-            question: 'What is the currency of the UK?',
-            correct_answer: 'GBP'
+            question: 'Where CZK is main currency?',
+            correct_answer: 'Czech Republic'
         },
         {
-            question: 'What is the currency of the EU?',
-            correct_answer: 'EUR'
+            question: 'Where GBP is main currency?',
+            correct_answer: 'United Kingdom'
         },
         {
-            question: 'What is the currency of Japan?',
-            correct_answer: 'JPY'
+            question: 'Where JPY is main currency?',
+            correct_answer: 'Japan'
         },
         {
-            question: 'What is the currency of China?',
-            correct_answer: 'CNY'
+            question: 'Where UAH is main currency?',
+            correct_answer: 'Ukraine'
         },
         {
-            question: 'What is the currency of Switzerland?',
-            correct_answer: 'CHF'
+            question: 'Where CNY is main currency?',
+            correct_answer: 'China'
         },
         {
-            question: 'What is the currency of Canada?',
-            correct_answer: 'CAD'
+            question: 'Where INR is main currency?',
+            correct_answer: 'India'
         },
         {
-            question: 'What is the currency of Australia?',
-            correct_answer: 'AUD'
+            question: 'Where BRL is main currency?',
+            correct_answer: 'Brazil'
         },
         {
-            question: 'What is the currency of Russia?',
-            correct_answer: 'RUB'
+            question: 'Where AUD is main currency?',
+            correct_answer: 'Australia'
         },
         {
-            question: 'What is the currency of Brazil?',
-            correct_answer: 'BRL'
+            question: 'Where CAD is main currency?',
+            correct_answer: 'Canada'
         },
         {
-            question: 'What is the currency of Mexico?',
-            correct_answer: 'MXN'
+            question: 'Where ZAR is main currency?',
+            correct_answer: 'South Africa'
         },
         {
-            question: 'What is the currency of South Africa?',
-            correct_answer: 'ZAR'
+            question: 'Where MXN is main currency?',
+            correct_answer: 'Mexico'
         },
         {
-            question: 'What is the currency of India?',
-            correct_answer: 'INR'
+            question: 'Where ARS is main currency?',
+            correct_answer: 'Argentina'
         },
         {
-            question: 'What is the currency of South Korea?',
-            correct_answer: 'KRW'
+            question: 'Where CLP is main currency?',
+            correct_answer: 'Chile'
         },
         {
-            question: 'What is the currency of Sweden?',
-            correct_answer: 'SEK'
+            question: 'Where EGP is main currency?',
+            correct_answer: 'Egypt'
         },
         {
-            question: 'What is the currency of Norway?',
-            correct_answer: 'NOK'
+            question: 'Where NGN is main currency?',
+            correct_answer: 'Nigeria'
         },
         {
-            question: 'What is the currency of Denmark?',
-            correct_answer: 'DKK'
-        },
-        {
-            question: 'What is the currency of New Zealand?',
-            correct_answer: 'NZD'
-        },
-        {
-            question: 'What is the currency of Singapore?',
-            correct_answer: 'SGD'
-        },
-        {
-            question: 'What is the currency of Hong Kong?',
-            correct_answer: 'HKD'
-        },
-        {
-            question: 'What is the currency of Poland?',
-            correct_answer: 'PLN'
-        },
+            question: 'Where GHS is main currency?',
+            correct_answer: 'Ghana'
+        }
     ]

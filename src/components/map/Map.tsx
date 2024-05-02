@@ -41,6 +41,8 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, allowRerender, setRere
             center: [lng, lat],
             zoom: zoom
         });
+        map.current?.addControl(new mapboxgl.NavigationControl());
+        map.current?.addControl(new mapboxgl.FullscreenControl());
     });
 
     const onMapClick = async (e: mapboxgl.MapMouseEvent) => {

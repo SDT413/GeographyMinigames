@@ -2,83 +2,71 @@ import {IQuestion} from "@/store/questions/questions.types";
 
 export const hardCurrenciesData: IQuestion[] = [
     {
-        question: 'What is the currency of Japan?',
-        correct_answer: 'Yen'
+        question: 'Where USD is main currency?',
+        correct_answer: 'United States'
     },
     {
-        question: 'What is the currency of Norway?',
-        correct_answer: 'Norwegian Krone'
+        question: 'Where CZK is main currency?',
+        correct_answer: 'Czech Republic'
     },
     {
-        question: 'What is the currency of New Zealand?',
-        correct_answer: 'New Zealand Dollar'
+        question: 'Where GBP is main currency?',
+        correct_answer: 'United Kingdom'
     },
     {
-        question: 'What is the currency of Bhutan?',
-        correct_answer: 'Ngultrum'
+        question: 'Where JPY is main currency?',
+        correct_answer: 'Japan'
     },
     {
-        question: 'What is the currency of USA?',
-        correct_answer: 'US Dollar'
+        question: 'Where UAH is main currency?',
+        correct_answer: 'Ukraine'
     },
     {
-        question: 'What is the currency of Japan?',
-        correct_answer: 'Yen'
+        question: 'Where CNY is main currency?',
+        correct_answer: 'China'
     },
     {
-        question: 'What is the currency of Norway?',
-        correct_answer: 'Norwegian Krone'
+        question: 'Where INR is main currency?',
+        correct_answer: 'India'
     },
     {
-        question: 'What is the currency of New Zealand?',
-        correct_answer: 'New Zealand Dollar'
+        question: 'Where BRL is main currency?',
+        correct_answer: 'Brazil'
     },
     {
-        question: 'What is the currency of Bhutan?',
-        correct_answer: 'Ngultrum'
+        question: 'Where AUD is main currency?',
+        correct_answer: 'Australia'
     },
     {
-        question: 'What is the currency of USA?',
-        correct_answer: 'US Dollar'
+        question: 'Where CAD is main currency?',
+        correct_answer: 'Canada'
     },
     {
-        question: 'What is the currency of Japan?',
-        correct_answer: 'Yen'
+        question: 'Where ZAR is main currency?',
+        correct_answer: 'South Africa'
     },
     {
-        question: 'What is the currency of Norway?',
-        correct_answer: 'Norwegian Krone'
+        question: 'Where MXN is main currency?',
+        correct_answer: 'Mexico'
     },
     {
-        question: 'What is the currency of New Zealand?',
-        correct_answer: 'New Zealand Dollar'
+        question: 'Where ARS is main currency?',
+        correct_answer: 'Argentina'
     },
     {
-        question: 'What is the currency of Bhutan?',
-        correct_answer: 'Ngultrum'
+        question: 'Where CLP is main currency?',
+        correct_answer: 'Chile'
     },
     {
-        question: 'What is the currency of USA?',
-        correct_answer: 'US Dollar'
+        question: 'Where EGP is main currency?',
+        correct_answer: 'Egypt'
     },
     {
-        question: 'What is the currency of Japan?',
-        correct_answer: 'Yen'
+        question: 'Where NGN is main currency?',
+        correct_answer: 'Nigeria'
     },
     {
-        question: 'What is the currency of Norway?',
-        correct_answer: 'Norwegian Krone'
-    },
-    {
-        question: 'What is the currency of New Zealand?',
-        correct_answer: 'New Zealand Dollar'
-    },
-    {
-        question: 'What is the currency of Bhutan?',
-        correct_answer: 'Ngultrum'
-    },
-    {
-        question: 'What is the currency of USA?',
-        correct_answer: 'US Dollar'
+        question: 'Where GHS is main currency?',
+        correct_answer: 'Ghana'
     },
    ];

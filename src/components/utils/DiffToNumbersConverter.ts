@@ -15,17 +15,17 @@ export const DiffToNumbersConverter = (config: IConfigInitialState) => {
     let helperPunishmentMediumModifier = 4;
     let helperPunishmentHardModifier = 5;
 
-    let helperEfficiencyEasyModifier = 3;
-    let helperEfficiencyMediumModifier = 4;
-    let helperEfficiencyHardModifier = 5;
+    let helperEfficiencyEasyModifier = 1000;
+    let helperEfficiencyMediumModifier = 1500;
+    let helperEfficiencyHardModifier = 2000;
 
     let timeEasyModifier = 3;
     let timeMediumModifier = 4;
     let timeHardModifier = 5;
 
-    let questionsAmountEasyModifier = 3;
-    let questionsAmountMediumModifier = 4;
-    let questionsAmountHardModifier = 5;
+    let questionsAmountEasyModifier = 10;
+    let questionsAmountMediumModifier = 11;
+    let questionsAmountHardModifier = 12;
 
     if (config.difficulty === "easy") {
         return {
