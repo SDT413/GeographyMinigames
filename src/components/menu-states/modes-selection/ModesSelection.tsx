@@ -29,7 +29,7 @@ const ModesSelection: FC = () => {
                     </MenuButton>
                     <MenuButton addStyles={styles.wideButton} onClick={() => {
                         setConfigMode("states")
-                        setMapStyle(PrepareMapStyle("capitals"))
+                        setMapStyle(PrepareMapStyle("states"))
                         setRerender(true)
                     }} selected={config.mode === "states"}>
                         USA States
@@ -58,7 +58,7 @@ const ModesSelection: FC = () => {
                 </div>
                 <br/>
                 <div className={styles.mapContainer}>
-                   <Map addStyles={styles.map} mapStyle={mapStyle} allowRerender={rerender} setRerender={setRerender} param_zoom={1.75}/>
+                   <Map addStyles={styles.map} mapStyle={mapStyle} allowRerender={rerender} setRerender={setRerender} param_lng={-100.96275568376927} param_lat={39.631808154818856} param_zoom={1.75}/>
                 </div>
             </LayoutMenuWide>
         </div>

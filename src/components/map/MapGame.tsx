@@ -282,7 +282,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             setAnswer(getCountryName(alpha3))
             setCountryFilterAndLayer(getCountryName(alpha3), alpha3);
         }
-        if (gameMode === "capitals" && setAnswer) {
+        if (gameMode === "states" && setAnswer) {
             const answer = await getUSAState(lng, lat);
             console.log('setAnswer:', answer);
             setAnswer(answer);
