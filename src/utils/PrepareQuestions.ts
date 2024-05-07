@@ -1,11 +1,11 @@
 import {easyCountriesData} from "@/components/data/countries/easyCountries.data";
 import {mediumCountriesData} from "@/components/data/countries/mediumCountries.data";
 import {hardCountriesData} from "@/components/data/countries/hardCountries.data";
-import {easyCapitalsData} from "@/components/data/capitals/easyCapitals.data";
+import {easyStatesData} from "@/components/data/states/easyStates.data";
 import {easyCurrenciesData} from "@/components/data/currencies/easyCurrencies.data";
 import {IQuestion} from "@/store/questions/questions.types";
-import {mediumCapitalsData} from "@/components/data/capitals/mediumCapitals.data";
-import {hardCapitalsData} from "@/components/data/capitals/hardCapitals.data";
+import {mediumStatesData} from "@/components/data/states/mediumStates.data";
+import {hardStatesData} from "@/components/data/states/hardStates.data";
 import {mediumCurrenciesData} from "@/components/data/currencies/mediumCurrencies.data";
 import {hardCurrenciesData} from "@/components/data/currencies/hardCurrencies.data";
 
@@ -37,20 +37,6 @@ export const PrepareQuestions = (gameMode: string, difficulty: string, amount: n
         if (difficulty === "hard") {
             /*console.log('hardCountriesData:', hardCountriesData);*/
             return TakeRandomQuestions(hardCountriesData, amount)
-        }
-    }
-    if (gameMode === "capitals") {
-        if (difficulty === "easy") {
-            /*console.log('easyCapitalsData:', easyCapitalsData);*/
-            return TakeRandomQuestions(easyCapitalsData, amount)
-        }
-        if (difficulty === "medium") {
-            /*console.log('mediumCapitalsData:', mediumCapitalsData);*/
-            return TakeRandomQuestions(mediumCapitalsData, amount)
-        }
-        if (difficulty === "hard") {
-            /*console.log('hardCapitalsData:', hardCapitalsData);*/
-            return TakeRandomQuestions(hardCapitalsData, amount)
         }
     }
     if (gameMode === "currencies") {

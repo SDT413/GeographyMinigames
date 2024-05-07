@@ -5,7 +5,7 @@ import MenuButton from "@/components/UI/menu-button/MenuButton";
 import LayoutMenuWide from "@/components/UI/ylayout/menu-layout/wide-buttons-layout/LayoutMenuWide";
 import {useActions} from "@/hooks/useActions";
 import {useConfig} from "@/hooks/useConfig";
-import {PrepareMapStyle} from "@/components/utils/PrepareMapStyle";
+import {PrepareMapStyle} from "@/utils/PrepareMapStyle";
 
 const ModesSelection: FC = () => {
     const {setConfigMode} = useActions()
@@ -28,11 +28,11 @@ const ModesSelection: FC = () => {
                         Shapes
                     </MenuButton>
                     <MenuButton addStyles={styles.wideButton} onClick={() => {
-                        setConfigMode("capitals")
+                        setConfigMode("states")
                         setMapStyle(PrepareMapStyle("capitals"))
                         setRerender(true)
-                    }} selected={config.mode === "capitals"}>
-                        Capital cities
+                    }} selected={config.mode === "states"}>
+                        USA States
                     </MenuButton>
                     <MenuButton addStyles={styles.wideButton} onClick={() => {
                         setConfigMode("countries")

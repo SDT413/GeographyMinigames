@@ -13,6 +13,6 @@ export interface IQuestion {
 }
 
 export interface IShape {
-    country: string;
+    place: string;
 }
 

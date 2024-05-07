@@ -9,13 +9,13 @@ import Map from "@/components/map/Map";
 import {useQuestions} from "@/hooks/useQuestions";
 import {useGameInfo} from "@/hooks/useGameInfo";
 import {useConfig} from "@/hooks/useConfig";
-import {DiffToNumbersConverter} from "@/components/utils/DiffToNumbersConverter";
 import {useActions} from "@/hooks/useActions";
-import {PrepareQuestions} from "@/components/utils/PrepareQuestions";
-import {PrepareShapes} from "@/components/utils/PrepareShapes";
-import {PrepareMapStyle} from "@/components/utils/PrepareMapStyle";
 import {IQuestion, IShape} from "@/store/questions/questions.types";
 import MapGame from "@/components/map/MapGame";
+import {PrepareMapStyle} from "@/utils/PrepareMapStyle";
+import {DiffToNumbersConverter} from "@/utils/DiffToNumbersConverter";
+import {PrepareQuestions} from "@/utils/PrepareQuestions";
+import {PrepareShapes} from "@/utils/PrepareShapes";
 
 interface Props {
     gameMode: string
@@ -26,7 +26,6 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const styles_for_question = "text-5xl text-white mr-5"
     const {setQuestions, setQuestionsLeft, decreaseQuestionsLeft, setInitCurrentQuestion, setNextQuestion, increaseScore, increaseFailed, setTime} = useActions()
     const questions = useQuestions()
-    const gameInfo = useGameInfo()
     const config = useConfig()
     const router = useRouter()
 
@@ -38,12 +37,26 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const mode_shapes = PrepareShapes(gameMode, mode_diff, questionsAmount)
 
     const [gameStarted, setGameStarted] = useState<boolean>(false)
+    const [mapClicked, setMapClicked] = useState<boolean>(false)
 
     const [currentQuestion, setCurrentQuestionState] = useState(mode_questions[0] as IQuestion)
     const [currentShape, setCurrentShape] = useState(mode_shapes[0] as IShape)
 
     const [answer, setAnswer] = useState<string>("")
     const [useHelper, setUseHelper] = useState<boolean>(false)
+    const [timer, setTimer] = useState<number>(time)
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (timer === 0) {
+                setNextQuestion()
+                decreaseQuestionsLeft()
+                setTimer(time)
+            }
+            setTimer(timer => timer - 1)
+        }, 1000)
+        return () => clearInterval(interval)
+    }, [ timer ])
 
 
     useEffect(() => {
@@ -73,17 +86,21 @@ const GameScreen: FC<Props> = ({gameMode}) => {
         if (!gameStarted) {
             return;
         }
-        if (answer) {
-            if (gameMode === "shapes") {
-                checkAnswer(answer, currentShape.country, gameMode)
-
+        if (!mapClicked) {
+            return;
+        }
+        if (answer && mapClicked) {
+            if (gameMode === "shapes" || gameMode === "states") {
+                checkAnswer(answer, currentShape.place, gameMode)
+                setMapClicked(false)
             }
-            else if (gameMode === "countries" || gameMode === "capitals" || gameMode === "currencies") {
+            else if (gameMode === "countries" || gameMode === "currencies") {
                 checkAnswer(answer, currentQuestion.correct_answer, gameMode)
+                setMapClicked(false)
             }
         }
             console.log("Answer checked", answer)
-    }, [gameStarted, answer, gameMode])
+    }, [gameStarted, mapClicked, gameMode])
 
     useEffect(() => {
         if (!gameStarted) {
@@ -96,6 +113,10 @@ const GameScreen: FC<Props> = ({gameMode}) => {
         }
     }, [gameStarted, questions.questionsLeft])
 
+    const resetTimer = () => {
+        setTimer(time)
+    }
+
     const checkAnswer = (answer: string, correctAnswer: string, gameMode: string) => {
        /* if (questions.questionsLeft === 1) {
             router.push('/statistics')
@@ -104,15 +125,19 @@ const GameScreen: FC<Props> = ({gameMode}) => {
         console.log(answer, correctAnswer)
         if (gameMode === "countries") {
             checkIQuestion(answer, correctAnswer)
+            resetTimer()
         }
-        if (gameMode === "capitals") {
-            checkIQuestion(answer, correctAnswer)
+        if (gameMode === "states") {
+            checkIShape(answer, correctAnswer)
+            resetTimer()
         }
         if (gameMode === "shapes") {
             checkIShape(answer, correctAnswer)
+            resetTimer()
         }
         if (gameMode === "currencies") {
             checkIQuestion(answer, correctAnswer)
+            resetTimer()
         }
     }
 
@@ -131,6 +156,7 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     }
 
     const checkIShape = (answer: string, correctAnswer: string) => {
+        console.log("Check IShape", answer, correctAnswer)
         if (answer === correctAnswer) {
             increaseScore()
             decreaseQuestionsLeft()
@@ -152,28 +178,31 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             >
                 <span className={styles_for_question}>
                    {
-                       currentShape && currentShape.country }
+                       currentShape && currentShape.place }
                     {
                        currentQuestion && currentQuestion.question
                    }
                 </span>
-                <button className={"text-2xl text-white bg-green p-2 rounded-lg ml-auto mr-5"} onClick={() => setUseHelper(true)}>
+                <button className={"text-2xl font-bold text-white bg-green p-2 rounded-lg mr-5 ml-12"} onClick={() => setUseHelper(true)}>
                     Use Helper
                 </button>
-                <span className={"text-2xl text-white bg-green p-2 rounded-lg ml-auto mr-5"}>
-                   Time: {gameInfo.time}
+                <span className={"text-2xl text-white font-bold bg-green p-2 rounded-lg ml-auto mr-5"}>
+                 <span> Time: <span style={
+                    {color: 'fuchsia',
+                        fontSize: '1.1em'}
+                }> {timer} </span></span>
                 </span>
-                { gameStarted &&
+                    {gameStarted &&
                     gameMode === "shapes" ?
-                        <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
+                        <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} />
                         :
                         gameMode === "countries" ?
-                            <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
-                            : gameMode === "capitals" ?
-                                <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
+                            <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} />
+                            : gameMode === "states" ?
+                                <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} param_lng={-100.96275568376927} param_lat={39.631808154818856} param_zoom={4.1} fixed={true} />
                                 : gameMode === "currencies" ?
-                                    <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
-                                    : <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} />
+                                    <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} />
+                                    : <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} />
                 }
             </LayoutGame>
         </div>

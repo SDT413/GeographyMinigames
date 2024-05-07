@@ -3,8 +3,8 @@ import styles from './ReviewMap.module.scss';
 import Map from "@/components/map/Map";
 import MenuButton from "@/components/UI/menu-button/MenuButton";
 import LayoutMenu from "@/components/UI/ylayout/menu-layout/LayoutMenu";
-import {PrepareMapStyle} from "@/components/utils/PrepareMapStyle";
 import {useConfig} from "@/hooks/useConfig";
+import {PrepareMapStyle} from "@/utils/PrepareMapStyle";
 
 const ReviewMap: FC = () => {
     const config = useConfig()

@@ -19,9 +19,9 @@ export const DiffToNumbersConverter = (config: IConfigInitialState) => {
     let helperEfficiencyMediumModifier = 1500;
     let helperEfficiencyHardModifier = 2000;
 
-    let timeEasyModifier = 3;
-    let timeMediumModifier = 4;
-    let timeHardModifier = 5;
+    let timeEasyModifier = 60;
+    let timeMediumModifier = 30;
+    let timeHardModifier = 20;
 
     let questionsAmountEasyModifier = 10;
     let questionsAmountMediumModifier = 11;

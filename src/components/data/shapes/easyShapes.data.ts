@@ -2,165 +2,165 @@ import {IShape} from "@/store/questions/questions.types";
 
 export const easyShapesData: IShape[] = [
     {
-        country: "France",
+        place: "France",
     },
     {
-        country: "Spain",
+        place: "Spain",
     },
     {
-        country: "Italy",
+        place: "Italy",
     },
     {
-        country: "Germany",
+        place: "Germany",
     },
     {
-        country: "Ukraine",
+        place: "Ukraine",
     },
     {
-        country: "China",
+        place: "China",
     },
     {
-        country: "Japan",
+        place: "Japan",
     },
     {
-        country: "India",
+        place: "India",
     },
     {
-        country: "Brazil",
+        place: "Brazil",
     },
     {
-        country: "Australia",
+        place: "Australia",
     },
     {
-        country: "Canada",
+        place: "Canada",
     },
     {
-        country: "Russia",
+        place: "Russia",
     },
     {
-        country: "South Africa",
+        place: "South Africa",
     },
     {
-        country: "Mexico",
+        place: "Mexico",
     },
     {
-        country: "Argentina",
+        place: "Argentina",
     },
     {
-        country: "Chile",
+        place: "Chile",
     },
     {
-        country: "Egypt",
+        place: "Egypt",
     },
     {
-        country: "Nigeria",
+        place: "Nigeria",
     },
     {
-        country: "Ghana",
+        place: "Ghana",
     },
     {
-        country: "Kenya",
+        place: "Kenya",
     },
     {
-        country: "Morocco",
+        place: "Morocco",
     },
     {
-        country: "Tunisia",
+        place: "Tunisia",
     },
     {
-        country: "Algeria",
+        place: "Algeria",
     },
     {
-        country: "Libya",
+        place: "Libya",
     },
     {
-        country: "Sudan",
+        place: "Sudan",
     },
     {
-        country: "Ethiopia",
+        place: "Ethiopia",
     },
     {
-        country: "Somalia",
+        place: "Somalia",
     },
     {
-        country: "Angola",
+        place: "Angola",
     },
     {
-        country: "Mozambique",
+        place: "Mozambique",
     },
     {
-        country: "Madagascar",
+        place: "Madagascar",
     },
     {
-        country: "Zimbabwe",
+        place: "Zimbabwe",
     },
     {
-        country: "Zambia",
+        place: "Zambia",
     },
     {
-        country: "Namibia",
+        place: "Namibia",
     },
     {
-        country: "Botswana",
+        place: "Botswana",
     },
     {
-        country: "South Korea",
+        place: "South Korea",
     },
     {
-        country: "North Korea",
+        place: "North Korea",
     },
     {
-        country: "Vietnam",
+        place: "Vietnam",
     },
     {
-        country: "Thailand",
+        place: "Thailand",
     },
     {
-        country: "Philippines",
+        place: "Philippines",
     },
     {
-        country: "Indonesia",
+        place: "Indonesia",
     },
     {
-        country: "Malaysia",
+        place: "Malaysia",
     },
     {
-        country: "Pakistan",
+        place: "Pakistan",
     },
     {
-        country: "Afghanistan",
+        place: "Afghanistan",
     },
     {
-        country: "Iran",
+        place: "Iran",
     },
     {
-        country: "Iraq",
+        place: "Iraq",
     },
     {
-        country: "Syria",
+        place: "Syria",
     },
     {
-        country: "Turkey",
+        place: "Turkey",
     },
     {
-        country: "Saudi Arabia",
+        place: "Saudi Arabia",
     },
     {
-        country: "Brazil",
+        place: "Brazil",
     },
     {
-        country: "United States",
+        place: "United States",
     },
     {
-        country: "Qatar",
+        place: "Qatar",
     },
     {
-        country: "Kuwait",
+        place: "Kuwait",
     },
     {
-        country: "Jordan",
+        place: "Jordan",
     },
     {
-        country: "Lebanon",
+        place: "Lebanon",
     },
 ]

@@ -15,18 +15,28 @@ const EndScreen: FC = () => {
                         addStyles={""}
             >
                 <div className={styles.buttons}>
-                    <Title title={"Congratulations"} subtitle={"you won"} classNameTitle={"text-7xl"} classNameSubtitle={"text-5xl"}/>
+                    <Title title={"Congratulations"} subtitle={"your results:"} classNameTitle={"text-6xl"} classNameSubtitle={"text-5xl"}/>
                 <MenuButton addStyles={styles.wideButton}>
-                    Score: {gameInfo.score}
+                    <p> Score:  <span style={
+                    gameInfo.score > 0 ? {color: 'green'} : {color: 'red'}
+                    }> {gameInfo.score} </span> </p>
                 </MenuButton>
-                <MenuButton addStyles={styles.wideButton}>
-                    Failed: {gameInfo.failed}
-                </MenuButton>
-                <MenuButton addStyles={styles.wideButton}>
-                    Time: {gameInfo.time}
-                </MenuButton>
-                <MenuButton addStyles={styles.wideButton}>
-                    Helper used: {gameInfo.helperUsed}
+                    <MenuButton addStyles={styles.wideButton}>
+                        <p> Failed: <span style={
+                            gameInfo.failed > 0 ? {color: 'red'} : {color: 'green'}
+                        }> {gameInfo.failed} </span> </p>
+                    </MenuButton>
+                    <MenuButton addStyles={styles.wideButton}>
+                        <p> Time:
+                            <span style={
+                                 {color: 'fuchsia'}
+                            }> {gameInfo.time} </span> </p>
+                    </MenuButton>
+                    <MenuButton addStyles={styles.wideButton}>
+                        <p> Helper used:
+                            <span style={
+                                gameInfo.helperUsed > 0 ? {color: 'red'} : {color: 'green'}
+                            }> {gameInfo.helperUsed} </span> </p>
                 </MenuButton>
                 <MenuButton addStyles={styles.wideButton} link={'/'}>
                     Back to main menu

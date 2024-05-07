@@ -11,6 +11,8 @@ import {useQuestions} from "@/hooks/useQuestions";
 import {IQuestion, IShape} from "@/store/questions/questions.types";
 import {featureCollection, point} from "@turf/helpers";
 import {GeoJSON} from "geojson";
+import {useActions} from "@/hooks/useActions";
+import axios from "axios";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGs0MTMiLCJhIjoiY2xmN2I0Z3ppMDBwZjN2cDcxMXBpeW92MyJ9.P4O2mbHyviXylMkyk1C3zw';
 
@@ -23,25 +25,52 @@ interface MapProps {
     useHelper?: boolean;
     setUseHelper: (useHelper: boolean) => void;
     helperSize: number;
+    setMapClicked?: (mapClicked: boolean) => void;
+    helperPunishment: number;
+    currentTime: number;
+    setTimer: (timer: number) => void;
+    param_zoom?: number
+    param_lat?: number
+    param_lng?: number
+    fixed?: boolean
 }
 
-const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, useHelper, setUseHelper, helperSize}) => {
+const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, useHelper, setUseHelper, helperSize, setMapClicked, helperPunishment, currentTime, setTimer, param_zoom, param_lat, param_lng, fixed}) => {
+    const {increaseHelperUsed} = useActions();
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [lng, setLng] = useState(-70.9);
-    const [lat, setLat] = useState(42.35);
+    const [lng, setLng] = useState(param_lng || 44);
+    const [lat, setLat] = useState(param_lat || 33);
     const [alpha3, setAlpha3] = useState("");
     const [countryName, setCountryName] = useState("");
     const [countryCapital, setCountryCapital] = useState("");
     const [countryCurrency, setCountryCurrency] = useState("");
-    const [zoom, setZoom] = useState(4.5);
+    const [zoom, setZoom] = useState(param_zoom || 4.5);
     const [points, setPoints] = useState<GeoJSON.FeatureCollection<GeoJSON.Point>>(featureCollection([]));
     const questions = useQuestions();
     const currentQuestion = questions.questions[questions.currentQuestionIndex];
     const typed = currentQuestion as IQuestion;
     const rightAnswer = typed ? typed.correct_answer : "";
     const typedShape = currentQuestion as IShape;
-    const rightShape = typedShape ? typedShape.country : "";
+    const rightShape = typedShape ? typedShape.place : "";
+    const stateSource = {
+        type: "geojson",
+        data: {
+            type: "FeatureCollection",
+            features: []
+        }
+    };
+    const statesLayer = {
+        id: "states",
+        type: "fill",
+        source: "states",
+        layout: {},
+        paint: {
+            "fill-color": "#627BC1",
+            "fill-opacity": 0.5
+        }
+    };
+
     useEffect(() => {
         if (map.current) return; // initialize map only once
         map.current = new mapboxgl.Map({
@@ -50,6 +79,14 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             center: [lng, lat],
             zoom: zoom
         });
+        //fix map location
+        if (fixed) {
+            map.current.scrollZoom.disable();
+            map.current.dragPan.disable();
+            map.current.dragRotate.disable();
+            map.current.doubleClickZoom.disable();
+            map.current.touchZoomRotate.disable();
+        }
         map.current?.on('load', function() { //On map load, we want to do some stuff
             map.current?.addLayer({ //here we are adding a layer containing the tileset we just uploaded
                 'id': 'countries',//this is the name of our layer, which we will need later
@@ -71,9 +108,13 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
                     features: []
                 }
             });
-
+                // state layer
+            map.current?.addSource("states", stateSource as any);
+            map.current?.addLayer(statesLayer as any);
 
         });
+
+
 
     }, []);
 
@@ -83,6 +124,8 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
 
     useEffect(() => {
         if (useHelper) {
+            increaseHelperUsed();
+            setTimer(currentTime - helperPunishment);
             map.current?.addLayer({
                 id: "circle",
                 source: "circleData",
@@ -120,7 +163,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
 
 
 
-    const addLayerByAnswer = (answer: string, alpha3: string) => {
+    const addCountryLayerByAnswer = (answer: string, alpha3: string) => {
        if (map.current?.getLayer('countries-highlighted')) {
             map.current?.removeLayer('countries-highlighted');
        }
@@ -159,25 +202,50 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             );
         }
     }
+    const addStateLayerByAnswer = (answer: string) => {
+        if (map.current?.getLayer('states-highlighted')) {
+            map.current?.removeLayer('states-highlighted');
+        }
+        if (answer === rightAnswer) {
+            return map.current?.addLayer(
+                {
+                    'id': 'states-highlighted',
+                    'source': 'states',
+                    'source-layer': 'ne_10m_admin_1_states_provinces-2k5k3v',
+                    'filter': ['in', 'name'].concat([answer]), // This line lets us filter by country codes.
+                    'type': 'fill',
+                    'paint': {
+                        'fill-color': '#02f820', // This is the color you want your highlighted country to be
+                        'fill-opacity': 0.5
+                    }
+                }
+            );
+        }
+        else {
+            return map.current?.addLayer(
+                {
+                    'id': 'states-highlighted',
+                    'source': 'states',
+                    'source-layer': 'ne_10m_admin_1_states_provinces-2k5k3v',
+                    'filter': ['in', 'name'].concat([answer]), // This line lets us filter by country codes.
+                    'type': 'fill',
+                    'paint': {
+                        'fill-color': '#ff1e1e', // This is the color you want your highlighted country to be
+                        'fill-opacity': 0.5
+                    }
+                }
+            );
+        }
+    }
 
-    const setFilterAndLayer = (answer: string, alpha3: string) => {
-        addLayerByAnswer(answer, alpha3);
+    const setCountryFilterAndLayer = (answer: string, alpha3: string) => {
+        addCountryLayerByAnswer(answer, alpha3);
         map.current?.setFilter('countries', ['in', 'ADM0_A3_IS'].concat([alpha3]));
     }
 
-    const getAnswerFromGameMode = (alpha3: string) => {
-        if (gameMode === "shapes") {
-            return getCountryName(alpha3);
-        }
-        if (gameMode === "countries") {
-            return getCountryName(alpha3);
-        }
-        if (gameMode === "capitals") {
-            return getCountryCapital(alpha3);
-        }
-        if (gameMode === "currencies") {
-            return getCountryName(alpha3);
-        }
+    const setStateFilterAndLayer = (answer: string) => {
+        addStateLayerByAnswer(answer);
+        map.current?.setFilter('states', ['in', 'name'].concat([answer]));
     }
 
     const ShowCircleAroundCountry = async (country: string) => {
@@ -194,6 +262,10 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         setLng(lng);
         setLat(lat);
         const alpha3 = await getCountryAlpha3(lng, lat);
+        if (alpha3 === "") return;
+        if (setMapClicked) {
+            setMapClicked(true);
+        }
         setAlpha3(alpha3);
         setUseHelper(false);
         if (onClick){
@@ -203,22 +275,23 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         if (gameMode === "shapes" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
             setAnswer(getCountryName(alpha3))
-            setFilterAndLayer(getCountryName(alpha3), alpha3);
+            setCountryFilterAndLayer(getCountryName(alpha3), alpha3);
         }
         if (gameMode === "countries" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
             setAnswer(getCountryName(alpha3))
-            setFilterAndLayer(getCountryName(alpha3), alpha3);
+            setCountryFilterAndLayer(getCountryName(alpha3), alpha3);
         }
         if (gameMode === "capitals" && setAnswer) {
-            console.log('setAnswer:', getCountryCapital(alpha3));
-            setAnswer(getCountryCapital(alpha3))
-            setFilterAndLayer(getCountryCapital(alpha3), alpha3);
+            const answer = await getUSAState(lng, lat);
+            console.log('setAnswer:', answer);
+            setAnswer(answer);
+            setStateFilterAndLayer(answer);
         }
         if (gameMode === "currencies" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
             setAnswer(getCountryName(alpha3))
-            setFilterAndLayer(getCountryName(alpha3), alpha3);
+            setCountryFilterAndLayer(getCountryName(alpha3), alpha3);
         }
     }
 
@@ -263,12 +336,27 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         return [randomLat, randomLng];
     }
 
-    const getCountryCapital = (alpha3: string) => {
-        if (alpha3 === "") return "";
-        const capital = infoCountries({ISO: alpha3}, 'capital');
-        let result = capital[0];
-        if (result === "Washington D.C.") result = "Washington";
-        return result;
+    const getUSAState = async (lng: any, lat: any) => {
+        const geocoding_query = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + lng + ',' + lat + '.json?access_token=' + mapboxgl.accessToken;
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
+        try {
+            const response = await axios.get(geocoding_query, axiosConfig);
+            const features = response.data.features;
+            for (let i = 0; i < features.length; i++) {
+                if (features[i].id.includes("region")) {
+                    console.log('features[i].text:', features[i].text);
+                    return features[i].text;
+                }
+            }
+            return "";
+        } catch (error) {
+            console.error(error);
+            return "";
+        }
     }
 
     const getCountryCurrency = (alpha3: string) => {

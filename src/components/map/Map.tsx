@@ -20,13 +20,15 @@ interface MapProps {
     allowRerender?: boolean
     setRerender?: (rerender: boolean) => void
     param_zoom?: number
+    param_lat?: number
+    param_lng?: number
 }
 
-const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, allowRerender, setRerender, param_zoom}) => {
+const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, allowRerender, setRerender, param_zoom, param_lat, param_lng}) => {
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
-    const [lng, setLng] = useState(44);
-    const [lat, setLat] = useState(33);
+    const [lng, setLng] = useState(param_lng || 44);
+    const [lat, setLat] = useState(param_lat || 33);
     const [zoom, setZoom] = useState(param_zoom || 4);
     useEffect(() => {
         map.current?.on('click', onMapClick);
@@ -46,6 +48,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, allowRerender, setRere
     });
 
     const onMapClick = async (e: mapboxgl.MapMouseEvent) => {
+        console.log(e.lngLat);
         if (onClick) {
             onClick();
         }

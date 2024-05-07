@@ -1,6 +1,6 @@
 export interface IConfigInitialState {
     difficulty: "easy" | "medium" | "hard" | "custom";
-    mode: "shapes" | "countries" | "capitals" | "currencies";
+    mode: "shapes" | "countries" | "states" | "currencies";
     // if difficulty is custom:
     questionsDiff: "easy" | "medium" | "hard";
     helperPunishment: "easy" | "medium" | "hard";
