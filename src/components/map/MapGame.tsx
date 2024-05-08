@@ -13,6 +13,7 @@ import {featureCollection, point} from "@turf/helpers";
 import {GeoJSON} from "geojson";
 import {useActions} from "@/hooks/useActions";
 import axios from "axios";
+import {state} from "sucrase/dist/types/parser/traverser/base";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGs0MTMiLCJhIjoiY2xmN2I0Z3ppMDBwZjN2cDcxMXBpeW92MyJ9.P4O2mbHyviXylMkyk1C3zw';
 
@@ -42,6 +43,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
     const [lng, setLng] = useState(param_lng || 44);
     const [lat, setLat] = useState(param_lat || 33);
     const [alpha3, setAlpha3] = useState("");
+    const [state, setState] = useState("");
     const [countryName, setCountryName] = useState("");
     const [countryCapital, setCountryCapital] = useState("");
     const [countryCurrency, setCountryCurrency] = useState("");
@@ -144,8 +146,8 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             else if (gameMode === "countries") {
                 ShowCircleAroundCountry(rightAnswer);
             }
-            else if (gameMode === "capitals") {
-                ShowCircleAroundCountry(rightAnswer);
+            else if (gameMode === "states") {
+                ShowCircleAroundState(rightShape);
             }
             else if (gameMode === "currencies") {
                 ShowCircleAroundCountry(rightAnswer);
@@ -203,39 +205,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         }
     }
     const addStateLayerByAnswer = (answer: string) => {
-        if (map.current?.getLayer('states-highlighted')) {
-            map.current?.removeLayer('states-highlighted');
-        }
-        if (answer === rightAnswer) {
-            return map.current?.addLayer(
-                {
-                    'id': 'states-highlighted',
-                    'source': 'states',
-                    'source-layer': 'ne_10m_admin_1_states_provinces-2k5k3v',
-                    'filter': ['in', 'name'].concat([answer]), // This line lets us filter by country codes.
-                    'type': 'fill',
-                    'paint': {
-                        'fill-color': '#02f820', // This is the color you want your highlighted country to be
-                        'fill-opacity': 0.5
-                    }
-                }
-            );
-        }
-        else {
-            return map.current?.addLayer(
-                {
-                    'id': 'states-highlighted',
-                    'source': 'states',
-                    'source-layer': 'ne_10m_admin_1_states_provinces-2k5k3v',
-                    'filter': ['in', 'name'].concat([answer]), // This line lets us filter by country codes.
-                    'type': 'fill',
-                    'paint': {
-                        'fill-color': '#ff1e1e', // This is the color you want your highlighted country to be
-                        'fill-opacity': 0.5
-                    }
-                }
-            );
-        }
+
     }
 
     const setCountryFilterAndLayer = (answer: string, alpha3: string) => {
@@ -256,13 +226,47 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         map.current?.getSource("circleData")?.setData(newPoints);
     }
 
+    const ShowCircleAroundState = async (state: string) => {
+        const geocoding_query = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + state + '.json?access_token=' + mapboxgl.accessToken;
+        let axiosConfig = {
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        };
+        try {
+            const response = await axios.get(geocoding_query, axiosConfig);
+            const features = response.data.features;
+            let latlng = features[0].center;
+            const newPoints = featureCollection([point(latlng)]);
+            setPoints(newPoints);
+            // @ts-ignore
+            map.current?.getSource("circleData")?.setData(newPoints);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    useEffect(() => {
+        getUSAState(lng, lat).then((state) => {
+            setState(state);
+        } );
+    }, [lng, lat]);
+    useEffect(() => {
+        if (gameMode === "states" && setAnswer) {
+            console.log('setAnswer:', state);
+            setAnswer(state);
+        }
+    }, [state]);
+
 
     const onMapClick = async (e: mapboxgl.MapMouseEvent) => {
         const {lng, lat} = e.lngLat;
         setLng(lng);
         setLat(lat);
         const alpha3 = await getCountryAlpha3(lng, lat);
-        if (alpha3 === "") return;
+        if (alpha3 === "" && gameMode !== "states") {
+            return;
+        }
         if (setMapClicked) {
             setMapClicked(true);
         }
@@ -281,12 +285,6 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             console.log('setAnswer:', getCountryName(alpha3));
             setAnswer(getCountryName(alpha3))
             setCountryFilterAndLayer(getCountryName(alpha3), alpha3);
-        }
-        if (gameMode === "states" && setAnswer) {
-            const answer = await getUSAState(lng, lat);
-            console.log('setAnswer:', answer);
-            setAnswer(answer);
-            setStateFilterAndLayer(answer);
         }
         if (gameMode === "currencies" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
@@ -331,8 +329,12 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
 
     const RandomizeLatLng = (country: string) => {
         const latlng = getLatLngByCountry(country);
-        const randomLat = latlng[0] + (Math.random() - 0.5) * 20;
-        const randomLng = latlng[1] + (Math.random() - 0.5) * 20;
+        let randomLat = latlng[0] + (Math.random() - 0.5) * 15;
+        let randomLng = latlng[1] + (Math.random() - 0.5) * 15;
+        if (gameMode === "states") {
+            randomLat = latlng[0] + (Math.random() - 0.5) * 5;
+            randomLng = latlng[1] + (Math.random() - 0.5) * 5;
+        }
         return [randomLat, randomLng];
     }
 
