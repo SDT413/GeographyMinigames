@@ -292,6 +292,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             console.log('setAnswer:', getCountryName(alpha3));
             setAnswer(getCountryName(alpha3))
             setCountryFilterAndLayer(getCountryName(alpha3), alpha3);
+            createPopup(lat, lng, getCountryName(alpha3), getCountryName(alpha3));
         }
     }
 
@@ -325,7 +326,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
                     'border-radius: 10px;' +
                     'width: 100%;' +
                     'height: 100%;' +
-                    'padding: 10px;' +
+                    'padding: 12px;' +
                     '">' + text + '</div>')
                 .addTo(map.current!);
         }
@@ -344,10 +345,14 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
                     'border-radius: 10px;' +
                     'width: 100%;' +
                     'height: 100%;' +
-                     'padding: 10px;' +
+                     'padding: 12px;' +
                     '">' + text + '</div>')
                 .addTo(map.current!);
             }
+        const markDocument = document.getElementsByClassName('mapboxgl-popup-content');
+        if (markDocument) {
+            markDocument[0].className = ''
+        }
         }
 
     const getCountryName = (alpha3: string) => {
