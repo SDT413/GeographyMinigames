@@ -275,11 +275,13 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         if (onClick){
             onClick();
         }
+
         console.log('gameMode:', gameMode);
         if (gameMode === "shapes" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
             setAnswer(getCountryName(alpha3))
             setCountryFilterAndLayer(getCountryName(alpha3), alpha3);
+            createPopup(lat, lng, getCountryName(alpha3), getCountryName(alpha3));
         }
         if (gameMode === "countries" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
@@ -302,6 +304,52 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
 
     }
 
+    const createPopup = (lat: number, lng: number, answer: string, text: string) => {
+       if (answer === rightAnswer || answer === rightShape) {
+           if (map.current?.getLayer('mark')) {
+                map.current?.removeLayer('mark');
+           }
+          const mark = new mapboxgl.Popup(
+                {
+                    closeButton: false,
+                    closeOnClick: true,
+                    offset: 25
+                }
+            )
+                .setLngLat([lng, lat])
+                .setHTML('<div style="' +
+                    'color: black;' +
+                    'font-size: 20px;' +
+                    'font-weight: bold;' +
+                    'background-color: #00ff17;' +
+                    'border-radius: 10px;' +
+                    'width: 100%;' +
+                    'height: 100%;' +
+                    'padding: 10px;' +
+                    '">' + text + '</div>')
+                .addTo(map.current!);
+        }
+        else {
+           const mark = new mapboxgl.Popup( {
+                closeButton: false,
+                closeOnClick: true,
+                offset: 25
+            })
+                .setLngLat([lng, lat])
+                .setHTML('<div style="' +
+                    'color: black;' +
+                    'font-size: 20px;' +
+                    'font-weight: bold;' +
+                    'background-color: red;' +
+                    'border-radius: 10px;' +
+                    'width: 100%;' +
+                    'height: 100%;' +
+                     'padding: 10px;' +
+                    '">' + text + '</div>')
+                .addTo(map.current!);
+            }
+        }
+
     const getCountryName = (alpha3: string) => {
         let country = countries[alpha3];
         if (!country) {
@@ -316,6 +364,8 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         if (country.name === "Iran, Islamic Republic Of") result = "Iran";
         if (country.name === "Syrian Arab Republic") result = "Syria";
         if (country.name === "Congo, The Democratic Republic Of The") result = "Congo";
+        if (country.name === "Bolivia, Plurinational State Of") result = "Bolivia";
+        if (country.name === "Venezuela, Bolivarian Republic Of") result = "Venezuela";
         return result;
     }
 

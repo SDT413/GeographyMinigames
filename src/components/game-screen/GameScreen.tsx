@@ -16,6 +16,7 @@ import {PrepareMapStyle} from "@/utils/PrepareMapStyle";
 import {DiffToNumbersConverter} from "@/utils/DiffToNumbersConverter";
 import {PrepareQuestions} from "@/utils/PrepareQuestions";
 import {PrepareShapes} from "@/utils/PrepareShapes";
+import {right} from "@popperjs/core";
 
 interface Props {
     gameMode: string
@@ -170,9 +171,49 @@ const GameScreen: FC<Props> = ({gameMode}) => {
         }
     }
 
+    const handleClick = (e: any) => {
+        if (gameStarted && mapClicked && gameMode === "states") {
+            let popups = [];
+            let mouseX = e.clientX;
+            let mouseY = e.clientY;
+            let popup;
+            if (answer === currentQuestion.correct_answer || answer === currentShape.place) {
+                popup = createRightPopup(mouseX, mouseY, answer);
+            } else {
+                popup = wrongPopup(mouseX, mouseY, answer);
+            }
+            popups.push(popup);
+            setTimeout(() => {
+                popups.forEach((popup) => {
+                    document.body.removeChild(popup);
+                });
+            }, 1000);
+        }
+    }
+
+    const createRightPopup = (mouseX: number, mouseY: number, text: string) => {
+        let popup = document.createElement('div');
+        popup.className = styles.rightAnswerPopup;
+        popup.style.left = mouseX + 'px';
+        popup.style.top = mouseY + 'px';
+        popup.innerHTML = text;
+        document.body.appendChild(popup);
+        return popup;
+    }
+
+    const wrongPopup = (mouseX: number, mouseY: number, text: string) => {
+        let popup = document.createElement('div');
+        popup.className = styles.wrongAnswerPopup;
+        popup.style.left = mouseX + 'px';
+        popup.style.top = mouseY + 'px';
+        popup.innerHTML = text;
+        document.body.appendChild(popup);
+        return popup;
+    }
+
 
     return (
-        <div className={styles.gameContainer}>
+        <div className={styles.gameContainer} onClick={handleClick}>
             <LayoutGame title="Geography game"
                         description={"Everything you need to know about geography"}
             >
