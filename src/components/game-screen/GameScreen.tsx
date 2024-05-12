@@ -16,7 +16,6 @@ import {PrepareMapStyle} from "@/utils/PrepareMapStyle";
 import {DiffToNumbersConverter} from "@/utils/DiffToNumbersConverter";
 import {PrepareQuestions} from "@/utils/PrepareQuestions";
 import {PrepareShapes} from "@/utils/PrepareShapes";
-import {right} from "@popperjs/core";
 
 interface Props {
     gameMode: string
@@ -220,7 +219,7 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             <LayoutGame title="Geography game"
                         description={"Everything you need to know about geography"}
             >
-                <span className={styles_for_question}>
+                <span className={styles.styles_for_question}>
                    {
                        currentShape && currentShape.place}
                     {
@@ -254,7 +253,7 @@ const GameScreen: FC<Props> = ({gameMode}) => {
                                 <br/>
                                 <div style={
                                     {
-                                        color: 'white',
+                                        color: 'black',
                                         fontSize: '2.5em',
                                     }
                                 }>

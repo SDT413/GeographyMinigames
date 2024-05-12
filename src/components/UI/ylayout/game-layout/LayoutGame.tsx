@@ -4,6 +4,7 @@ import Meta from "@/components/UI/meta/Meta";
 import classNames from "classnames";
 import GameImage from "@/components/UI/images/game-image/GameImage";
 import styles from './LayoutGame.module.scss';
+import MenuImage from "@/components/UI/images/menu-image/MenuImage";
 
 interface Props {
     children?: any,
@@ -18,7 +19,7 @@ const LayoutGame:FC<PropsWithChildren<Props>> = ({children, title, description, 
     return (
         <>
             <Meta {...{title, description}}/>
-            <GameImage/>
+            <MenuImage/>
             <div className={styles.layout}>
                 <main>
                     <section className={classNames(styles.content, addStyles)}>

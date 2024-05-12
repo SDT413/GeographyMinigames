@@ -8,6 +8,10 @@
     height: 768px;
 }
 
+.styles_for_question {
+  @apply text-5xl text-title-color mr-5 font-bold;
+}
+
 
 .rightAnswerPopup {
     @apply absolute bg-green p-4 rounded-lg shadow-lg h-8 flex flex-col items-center justify-center text-white;
