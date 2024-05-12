@@ -48,6 +48,17 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const [timer, setTimer] = useState<number>(time)
 
     const state_range = mode_diff === "easy" ? 5 : mode_diff === "medium" ? 3 : 2
+    const state_zoom = window.innerWidth >= 1980 ? 4.1 :
+        window.innerWidth >= 1680 ? 4 :
+            window.innerWidth >= 1280 ? 3.9 :
+                window.innerWidth >= 1024 ? 3.8 :
+                    window.innerWidth >= 800 ? 3.7 :
+                        window.innerWidth >= 768 ? 3.6 :
+                            window.innerWidth >= 640 ? 3.5 :
+                                window.innerWidth >= 480 ? 3.4 :
+                                    window.innerWidth >= 375 ? 3.3 :
+                                        window.innerWidth >= 360 ? 3.2 :
+                                            window.innerWidth >= 320 ? 3.1 : 3.1
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -219,17 +230,17 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             <LayoutGame title="Geography game"
                         description={"Everything you need to know about geography"}
             >
-                <span className={styles.styles_for_question}>
+                <span className={styles.question_styles}>
                    {
                        currentShape && currentShape.place}
                     {
                         currentQuestion && currentQuestion.question
                     }
                 </span>
-                <button className={"text-2xl font-bold text-white bg-green p-2 rounded-lg mr-5 ml-12"} onClick={() => setUseHelper(true)}>
+                <button className={styles.helper_styles} onClick={() => setUseHelper(true)}>
                     Use Helper
                 </button>
-                <span className={"text-2xl text-white font-bold bg-green p-2 rounded-lg ml-auto mr-5"}>
+                <span className={styles.timer_styles}>
                  <span> Time: <span style={
                      {
                          color: 'fuchsia',
@@ -249,14 +260,9 @@ const GameScreen: FC<Props> = ({gameMode}) => {
                             <>
                                 <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper}
                                          helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment}
-                                         param_lng={-100.96275568376927} param_lat={39.631808154818856} param_zoom={4.1} fixed={true} setActualChosenState={setActualChosenState}/>
+                                         param_lng={-100.96275568376927} param_lat={39.631808154818856} param_zoom={state_zoom} fixed={true} setActualChosenState={setActualChosenState}/>
                                 <br/>
-                                <div style={
-                                    {
-                                        color: 'black',
-                                        fontSize: '2.5em',
-                                    }
-                                }>
+                                <div className={styles.note_styles}>
                                     <b style={
                                         {
                                             color: 'red',
