@@ -4,9 +4,7 @@ export const mediumStatesData: IShape[] = [
     {
         place: 'Alabama',
     },
-    {
-        place: 'Alaska',
-    },
+    // NO Alaska
     {
         place: 'Arizona',
     },
@@ -31,9 +29,7 @@ export const mediumStatesData: IShape[] = [
     {
         place: 'Georgia',
     },
-    {
-        place: 'Hawaii',
-    },
+    // NO Hawaii
     {
         place: 'Idaho',
     },

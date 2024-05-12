@@ -4,9 +4,7 @@ export const hardStatesData: IShape[] = [
     {
         place: 'Alabama',
     },
-    {
-        place: 'Alaska',
-    },
+    // NO Alaska
     {
         place: 'Arizona',
     },
@@ -31,9 +29,7 @@ export const hardStatesData: IShape[] = [
     {
         place: 'Georgia',
     },
-    {
-        place: 'Hawaii',
-    },
+    // NO Hawaii
     {
         place: 'Idaho',
     },

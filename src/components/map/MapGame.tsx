@@ -13,7 +13,8 @@ import {featureCollection, point} from "@turf/helpers";
 import {GeoJSON} from "geojson";
 import {useActions} from "@/hooks/useActions";
 import axios from "axios";
-import {state} from "sucrase/dist/types/parser/traverser/base";
+import {WhatUSAStateCordinates} from "@/utils/WhatUSAStateCordinates";
+import {useConfig} from "@/hooks/useConfig";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGs0MTMiLCJhIjoiY2xmN2I0Z3ppMDBwZjN2cDcxMXBpeW92MyJ9.P4O2mbHyviXylMkyk1C3zw';
 
@@ -23,6 +24,7 @@ interface MapProps {
     mapStyle?: string;
     gameMode?: string;
     setAnswer?: (answer: string) => void;
+    setActualChosenState?: (actualChosenState: string) => void;
     useHelper?: boolean;
     setUseHelper: (useHelper: boolean) => void;
     helperSize: number;
@@ -36,20 +38,21 @@ interface MapProps {
     fixed?: boolean
 }
 
-const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, useHelper, setUseHelper, helperSize, setMapClicked, helperPunishment, currentTime, setTimer, param_zoom, param_lat, param_lng, fixed}) => {
+const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, useHelper, setUseHelper, helperSize, setMapClicked, helperPunishment, currentTime, setTimer, param_zoom, param_lat, param_lng, fixed, setActualChosenState}) => {
     const {increaseHelperUsed} = useActions();
     const mapContainer = useRef(null);
     const map = useRef<mapboxgl.Map | null>(null);
     const [lng, setLng] = useState(param_lng || 44);
     const [lat, setLat] = useState(param_lat || 33);
     const [alpha3, setAlpha3] = useState("");
-    const [state, setState] = useState("");
     const [countryName, setCountryName] = useState("");
     const [countryCapital, setCountryCapital] = useState("");
     const [countryCurrency, setCountryCurrency] = useState("");
     const [zoom, setZoom] = useState(param_zoom || 4.5);
     const [points, setPoints] = useState<GeoJSON.FeatureCollection<GeoJSON.Point>>(featureCollection([]));
     const questions = useQuestions();
+    const config = useConfig();
+    const diff = config.difficulty === "custom" ? config.questionsDiff : config.difficulty;
     const currentQuestion = questions.questions[questions.currentQuestionIndex];
     const typed = currentQuestion as IQuestion;
     const rightAnswer = typed ? typed.correct_answer : "";
@@ -246,25 +249,17 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         }
     }
 
-    useEffect(() => {
-        getUSAState(lng, lat).then((state) => {
-            setState(state);
-        } );
-    }, [lng, lat]);
-    useEffect(() => {
-        if (gameMode === "states" && setAnswer) {
-            console.log('setAnswer:', state);
-            setAnswer(state);
-        }
-    }, [state]);
-
 
     const onMapClick = async (e: mapboxgl.MapMouseEvent) => {
         const {lng, lat} = e.lngLat;
+        console.log('FROM MAP CLICK lng:', lng, 'lat:', lat);
         setLng(lng);
         setLat(lat);
         const alpha3 = await getCountryAlpha3(lng, lat);
         if (alpha3 === "" && gameMode !== "states") {
+            return;
+        }
+        if (gameMode === "states" && WhatUSAStateCordinates(lng, lat, rightShape, diff).state === "Outside USA") {
             return;
         }
         if (setMapClicked) {
@@ -282,6 +277,14 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             setAnswer(getCountryName(alpha3))
             setCountryFilterAndLayer(getCountryName(alpha3), alpha3);
             createPopup(lat, lng, getCountryName(alpha3), getCountryName(alpha3));
+        }
+        if (gameMode === "states" && setAnswer) {
+            console.log('setAnswer:', getUSAState(lng, lat).state);
+            const savedState = getUSAState(lng, lat).state;
+            setAnswer(savedState);
+            console.log('savedState:', savedState, 'actualChosenState:', getUSAState(lng, lat).actualChosenState);
+            setActualChosenState!(getUSAState(lng, lat).actualChosenState);
+           /* createPopup(lat, lng, getUSAState(lng, lat), getUSAState(lng, lat));*/
         }
         if (gameMode === "countries" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
@@ -308,33 +311,35 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
     const createPopup = (lat: number, lng: number, answer: string, text: string) => {
        if (answer === rightAnswer || answer === rightShape) {
            if (map.current?.getLayer('mark')) {
-                map.current?.removeLayer('mark');
+               map.current?.removeLayer('mark');
            }
-          const mark = new mapboxgl.Popup(
-                {
-                    closeButton: false,
-                    closeOnClick: true,
-                    offset: 25
-                }
-            )
-                .setLngLat([lng, lat])
-                .setHTML('<div style="' +
-                    'color: black;' +
-                    'font-size: 20px;' +
-                    'font-weight: bold;' +
-                    'background-color: #00ff17;' +
-                    'border-radius: 10px;' +
-                    'width: 100%;' +
-                    'height: 100%;' +
-                    'padding: 12px;' +
-                    '">' + text + '</div>')
-                .addTo(map.current!);
+           const mark = new mapboxgl.Popup( {
+               closeButton: false,
+               closeOnClick: true,
+           })
+               .setLngLat([lng, lat])
+               .setHTML('<div style="' +
+                   'color: black;' +
+                   'font-size: 20px;' +
+                   'font-weight: bold;' +
+                   'background-color: #00ff17;' +
+                   'border-radius: 10px;' +
+                   'width: 100%;' +
+                   'height: 100%;' +
+                   'padding: 12px;' +
+                   '">' + text + '</div>')
+               .addTo(map.current!);
+           setTimeout(() => {
+               mark.remove();
+           }, 3000);
         }
         else {
+            if (map.current?.getLayer('mark')) {
+                map.current?.removeLayer('mark');
+            }
            const mark = new mapboxgl.Popup( {
                 closeButton: false,
                 closeOnClick: true,
-                offset: 25
             })
                 .setLngLat([lng, lat])
                 .setHTML('<div style="' +
@@ -345,9 +350,12 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
                     'border-radius: 10px;' +
                     'width: 100%;' +
                     'height: 100%;' +
-                     'padding: 12px;' +
+                    'padding: 12px;' +
                     '">' + text + '</div>')
                 .addTo(map.current!);
+           setTimeout(() => {
+               mark.remove();
+           }, 3000);
             }
         const markDocument = document.getElementsByClassName('mapboxgl-popup-content');
         if (markDocument) {
@@ -393,35 +401,12 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         return [randomLat, randomLng];
     }
 
-    const getUSAState = async (lng: any, lat: any) => {
-        const geocoding_query = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + lng + ',' + lat + '.json?access_token=' + mapboxgl.accessToken;
-        let axiosConfig = {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        };
-        try {
-            const response = await axios.get(geocoding_query, axiosConfig);
-            const features = response.data.features;
-            for (let i = 0; i < features.length; i++) {
-                if (features[i].id.includes("region")) {
-                    console.log('features[i].text:', features[i].text);
-                    return features[i].text;
-                }
-            }
-            return "";
-        } catch (error) {
-            console.error(error);
-            return "";
+    const getUSAState = (lng: any, lat: any) => {
+        const state = WhatUSAStateCordinates(lng, lat, rightShape, diff);
+        return {
+            state: state.state,
+            actualChosenState: state.actualChosenState
         }
-    }
-
-    const getCountryCurrency = (alpha3: string) => {
-        let country = countries[alpha3];
-        if (!country) {
-            country = countries[alpha3.toLowerCase()];
-        }
-        return country.currencies[0];
     }
 
     return (

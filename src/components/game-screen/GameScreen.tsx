@@ -44,8 +44,11 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const [currentShape, setCurrentShape] = useState(mode_shapes[0] as IShape)
 
     const [answer, setAnswer] = useState<string>("")
+    const [actualChosenState, setActualChosenState] = useState<string>("")
     const [useHelper, setUseHelper] = useState<boolean>(false)
     const [timer, setTimer] = useState<number>(time)
+
+    const state_range = mode_diff === "easy" ? 5 : mode_diff === "medium" ? 3 : 2
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -178,9 +181,9 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             let mouseY = e.clientY;
             let popup;
             if (answer === currentQuestion.correct_answer || answer === currentShape.place) {
-                popup = createRightPopup(mouseX, mouseY, answer);
+                popup = createRightPopup(mouseX, mouseY, actualChosenState);
             } else {
-                popup = wrongPopup(mouseX, mouseY, answer);
+                popup = wrongPopup(mouseX, mouseY, actualChosenState);
             }
             popups.push(popup);
             setTimeout(() => {
@@ -219,32 +222,54 @@ const GameScreen: FC<Props> = ({gameMode}) => {
             >
                 <span className={styles_for_question}>
                    {
-                       currentShape && currentShape.place }
+                       currentShape && currentShape.place}
                     {
-                       currentQuestion && currentQuestion.question
-                   }
+                        currentQuestion && currentQuestion.question
+                    }
                 </span>
                 <button className={"text-2xl font-bold text-white bg-green p-2 rounded-lg mr-5 ml-12"} onClick={() => setUseHelper(true)}>
                     Use Helper
                 </button>
                 <span className={"text-2xl text-white font-bold bg-green p-2 rounded-lg ml-auto mr-5"}>
                  <span> Time: <span style={
-                    {color: 'fuchsia',
-                        fontSize: '1.1em'}
-                }> {timer} </span></span>
+                     {
+                         color: 'fuchsia',
+                         fontSize: '1.1em'
+                     }
+                 }> {timer} </span></span>
                 </span>
-                    {gameStarted &&
-                    gameMode === "shapes" ?
-                        <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} />
-                        :
-                        gameMode === "countries" ?
-                            <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} />
-                            : gameMode === "states" ?
-                                <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} param_lng={-100.96275568376927} param_lat={39.631808154818856} param_zoom={4.1} fixed={true} />
-                                : gameMode === "currencies" ?
-                                    <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} />
-                                    : <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment} />
+                {gameStarted &&
+                gameMode === "shapes" ?
+                    <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper} helperSize={helperEfficiency}
+                             setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment}/>
+                    :
+                    gameMode === "countries" ?
+                        <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper}
+                                 helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment}/>
+                        : gameMode === "states" ?
+                            <>
+                                <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper}
+                                         helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment}
+                                         param_lng={-100.96275568376927} param_lat={39.631808154818856} param_zoom={4.1} fixed={true} setActualChosenState={setActualChosenState}/>
+                                <br/>
+                                <div style={
+                                    {
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        fontSize: '2em',
+                                        marginLeft: '10px'
+                                    }
+                                }>
+                                    Note: on {mode_diff} difficulty, you can be in {state_range} closest states to the right answer
+                                </div>
+                            </>
+                            : gameMode === "currencies" ?
+                                <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper}
+                                         helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment}/>
+                                : <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper}
+                                           helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment}/>
                 }
+
             </LayoutGame>
         </div>
     );
