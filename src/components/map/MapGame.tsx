@@ -252,7 +252,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
 
     const onMapClick = async (e: mapboxgl.MapMouseEvent) => {
         const {lng, lat} = e.lngLat;
-        console.log('FROM MAP CLICK lng:', lng, 'lat:', lat);
+        /*console.log('FROM MAP CLICK lng:', lng, 'lat:', lat);*/
         setLng(lng);
         setLat(lat);
         const alpha3 = await getCountryAlpha3(lng, lat);
@@ -271,7 +271,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             onClick();
         }
 
-        console.log('gameMode:', gameMode);
+        /*console.log('gameMode:', gameMode);*/
         if (gameMode === "shapes" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
             setAnswer(getCountryName(alpha3))

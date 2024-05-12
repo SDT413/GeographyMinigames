@@ -17,35 +17,35 @@ export const questionsSlice = createSlice({
     reducers: {
         setQuestions: (state, action: PayloadAction<IQuestionsInitialState['questions']>) => {
             state.questions = action.payload;
-            console.log("Set questions: ", state.questions)
+            /*console.log("Set questions: ", state.questions)*/
         },
         setCurrentQuestion: (state, action: PayloadAction<IQuestionsInitialState['currentQuestion']>) => {
             state.currentQuestion = action.payload;
-            console.log("Set current question: ", state.currentQuestion)
+            /*console.log("Set current question: ", state.currentQuestion)*/
         },
         setInitCurrentQuestion: (state) => {
             state.currentQuestionIndex = 0;
             state.currentQuestion = state.questions[state.currentQuestionIndex];
-            console.log("Set init current question: ", state.currentQuestion)
+            /*console.log("Set init current question: ", state.currentQuestion)*/
         },
         setNextQuestion: (state) => {
             if (state.currentQuestionIndex !== state.questions.length - 1) {
                 state.currentQuestionIndex += 1;
                 state.currentQuestion = state.questions[state.currentQuestionIndex];
             }
-            console.log("Set next question: ", state.currentQuestion, "Index: ", state.currentQuestionIndex)
+            /*console.log("Set next question: ", state.currentQuestion, "Index: ", state.currentQuestionIndex)*/
         },
         setQuestionsLeft: (state, action: PayloadAction<IQuestionsInitialState['questionsLeft']>) => {
             state.questionsLeft = action.payload;
-            console.log("Set questions left: ", state.questionsLeft)
+            /*console.log("Set questions left: ", state.questionsLeft)*/
         },
         autoSetQuestionsLeft: (state) => {
             state.questionsLeft = state.questions.length - (state.currentQuestionIndex + 1);
-            console.log("Auto set questions left: ", state.questionsLeft)
+            /*console.log("Auto set questions left: ", state.questionsLeft)*/
         },
         decreaseQuestionsLeft: (state) => {
             state.questionsLeft -= 1;
-            console.log("Decrease questions left: ", state.questionsLeft)
+            /*console.log("Decrease questions left: ", state.questionsLeft)*/
         }
 }
 });

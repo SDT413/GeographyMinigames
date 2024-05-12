@@ -1,6 +1,7 @@
 .layout {
+  @apply bg-black h-screen w-screen;
   > main {
-    @apply bg-white py-8 px-10;
+    @apply py-8 px-10;
   }
 
   .content {

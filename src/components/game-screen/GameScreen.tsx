@@ -103,7 +103,7 @@ const GameScreen: FC<Props> = ({gameMode}) => {
                 setMapClicked(false)
             }
         }
-            console.log("Answer checked", answer)
+            /*console.log("Answer checked", answer)*/
     }, [gameStarted, mapClicked, gameMode])
 
     useEffect(() => {
@@ -255,12 +255,15 @@ const GameScreen: FC<Props> = ({gameMode}) => {
                                 <div style={
                                     {
                                         color: 'white',
-                                        fontWeight: 'bold',
-                                        fontSize: '2em',
-                                        marginLeft: '10px'
+                                        fontSize: '2.5em',
                                     }
                                 }>
-                                    Note: on {mode_diff} difficulty, you can be in {state_range} closest states to the right answer
+                                    <b style={
+                                        {
+                                            color: 'red',
+                                        }
+                                    }
+                                    >Note</b>: the score will increase if right answer is in <b>{state_range}</b> closest states from point of click
                                 </div>
                             </>
                             : gameMode === "currencies" ?
