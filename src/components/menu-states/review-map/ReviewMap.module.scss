@@ -1,6 +1,3 @@
-
-
-
 .map {
   @apply relative;
   height: 720px;
@@ -9,4 +6,47 @@
 
 .wideButton {
   @apply mx-auto;
+}
+
+@media (max-width: 1920px) {
+  .map {
+    height: 720px;
+  }
+
+}
+
+@media (max-width: 1280px) {
+  .map {
+    height: 550px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .map {
+    height: 550px;
+  }
+}
+
+@media (max-width: 768px) {
+  .map {
+    height: 550px;
+  }
+}
+
+@media (max-width: 640px) {
+  .map {
+    height: 550px;
+  }
+}
+
+@media (max-width: 480px) {
+  .map {
+    height: 500px;
+  }
+}
+
+@media (max-width: 320px) {
+  .map {
+    height: 450px;
+  }
 }

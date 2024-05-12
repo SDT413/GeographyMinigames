@@ -21,10 +21,13 @@ const CustomDiffRow: FC<Props> = ({setParam, paramName, easySelectedParam, mediu
     const [hardSelected, setHardSelected] = useState(hardSelectedParam)
     return (
         <div className={styles.row}>
-            <MenuButton addStyles={styles.wideButton}>
+            <div className={styles.upperButton}>
+            <CustomDiffButton addStyles={styles.wideButton} color={styles.colorOrange}>
                 {paramName}
-            </MenuButton>
+            </CustomDiffButton>
+            </div>
 
+            <div className={styles.lowerButtons}>
                 <CustomDiffButton addStyles={styles.customButton} onClick={() => {
                         setParam("easy")
                         console.log("easy")
@@ -58,6 +61,7 @@ const CustomDiffRow: FC<Props> = ({setParam, paramName, easySelectedParam, mediu
                     hard
                 </CustomDiffButton>
                 </div>
+        </div>
     );
 };
 

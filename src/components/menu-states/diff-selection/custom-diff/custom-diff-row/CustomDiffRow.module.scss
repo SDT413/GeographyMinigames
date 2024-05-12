@@ -1,18 +1,29 @@
 .wideButton {
-    @apply flex mb-4;
+    @apply flex;
     width: 600px;
 }
 
 .customButton {
-    @apply flex mb-4;
+    @apply flex;
     width: 250px;
     margin-left: 50px;
 }
 
-
 .row {
     @apply flex;
     justify-content: space-between;
+}
+
+.upperButton {
+    display: inline-flex;
+}
+
+.lowerButtons {
+    display: inline-flex;
+}
+
+.colorOrange {
+    @apply bg-button-orange hover:bg-button-orange;
 }
 
 .colorEasy {
@@ -25,4 +36,81 @@
 
 .colorHard {
     @apply bg-hard-custom-color hover:bg-hard-custom-color-hover;
+}
+
+@media (max-width: 1920px) {
+   .wideButton {
+       width: 600px;
+   }
+}
+
+@media (max-width: 1280px) {
+    .wideButton {
+        width: 400px;
+        margin-bottom: 12px;
+    }
+    .customButton {
+        width: 200px;
+        height: 75px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .wideButton {
+        width: 300px;
+        margin-bottom: 12px;
+    }
+    .customButton {
+        width: 175px;
+        height: 75px;
+    }
+}
+
+@media (max-width: 768px) {
+    .wideButton {
+        width: 300px;
+        margin-bottom: 12px;
+    }
+    .customButton {
+        width: 175px;
+        height: 75px;
+        margin-left: 25px;
+    }
+
+}
+
+@media (max-width: 640px) {
+    .wideButton {
+        width: 300px;
+        margin-bottom: 12px;
+    }
+    .customButton {
+        width: 175px;
+        height: 75px;
+        margin-left: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .wideButton {
+        width: 250px;
+        margin-bottom: 0;
+    }
+    .customButton {
+        width: 150px;
+        height: 75px;
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 320px) {
+    .wideButton {
+        width: 30px;
+        margin-bottom: 0;
+    }
+    .customButton {
+        width: 30px;
+        height: 75px;
+        margin-left: 0;
+    }
 }

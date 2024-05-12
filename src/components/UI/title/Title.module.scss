@@ -1,7 +1,43 @@
 .title {
-  @apply font-black text-title-color ml-auto leading-tight text-center;
+  @apply font-black text-title-color ml-auto leading-tight text-center text-9xl;
 }
 
 .subtitle {
-  @apply font-bold text-subtitle-color ml-auto leading-tight text-center;
+  @apply font-bold text-subtitle-color ml-auto leading-tight text-center text-7xl;
+}
+
+@media (max-width: 1920px) {
+  .title {
+    @apply text-8xl;
+  }
+  .subtitle {
+    @apply text-6xl;
+  }
+}
+
+@media (max-width: 1280px) {
+  .title {
+    @apply text-7xl;
+  }
+  .subtitle {
+    @apply text-5xl;
+  }
+}
+
+@media (max-width: 768px) {
+  .title {
+    @apply text-5xl;
+  }
+  .subtitle {
+    @apply text-3xl;
+  }
+}
+
+@media (max-width: 320px) {
+  .title {
+    @apply text-4xl;
+  }
+  .subtitle {
+    @apply text-2xl;
+  }
 }

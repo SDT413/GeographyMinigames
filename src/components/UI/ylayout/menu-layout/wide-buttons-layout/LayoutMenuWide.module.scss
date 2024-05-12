@@ -1,10 +1,18 @@
 .layout {
   > main {
-    @apply bg-white py-8 px-10;
+    @apply bg-black py-8 px-10;
   }
 
   .content {
     @apply relative;
   }
 
+}
+
+@media (max-width: 768px) {
+  .layout {
+    > main {
+      @apply py-4 px-4;
+    }
+  }
 }

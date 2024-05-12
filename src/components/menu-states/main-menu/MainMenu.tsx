@@ -16,7 +16,7 @@ const MainMenu: FC = () => {
                     description={"Everything you need to know about geography"}
                         addStyles={centerLayout}
             >
-                <Title title={"Geography"} subtitle={"Minigames"} classNameTitle={"text-9xl"} classNameSubtitle={"text-7xl"}/>
+                <Title title={"Geography"} subtitle={"Minigames"}/>
                 <MenuButton addStyles={mainMenuButtonsStyles} link={'/game/' + config.mode}>
                     Start Game
                 </MenuButton>

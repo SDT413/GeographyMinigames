@@ -8,3 +8,11 @@
   }
 
 }
+
+@media (max-width: 768px) {
+    .layout {
+        > main {
+        @apply py-4 px-4;
+        }
+    }
+}

@@ -1,4 +1,48 @@
 .button {
-  @apply bg-button-orange text-center font-extrabold text-3xl py-2 px-4 rounded-full mt-14;
+  @apply bg-button-orange text-center font-extrabold text-3xl py-2 px-4 rounded-full mt-14 w-1/3;
   @apply hover:cursor-pointer hover:bg-button-orange-hover;
+}
+
+
+@media (max-width: 1920px) {
+  .button {
+    @apply bg-button-orange text-center font-extrabold text-3xl py-2 px-4 rounded-full mt-14 w-1/3;
+  }
+
+}
+
+@media (max-width: 1280px) {
+    .button {
+        @apply bg-button-orange text-center font-extrabold text-2xl py-1.5 px-4 rounded-full mt-12;
+    }
+}
+
+@media (max-width: 1024px) {
+    .button {
+        @apply bg-button-orange text-center font-extrabold text-2xl py-1.5 px-4 rounded-full mt-12 w-1/2;
+    }
+}
+
+@media (max-width: 768px) {
+    .button {
+        @apply bg-button-orange text-center font-extrabold text-2xl py-2 px-4 rounded-full mt-12 w-1/2;
+    }
+}
+
+@media (max-width: 640px) {
+    .button {
+        @apply bg-button-orange text-center font-extrabold text-2xl py-2 px-4 rounded-full mt-12 w-1/2;
+    }
+}
+
+@media (max-width: 480px) {
+    .button {
+      @apply bg-button-orange text-center font-extrabold text-1.5xl py-2 px-4 rounded-full mt-12 w-4/5;
+    }
+}
+
+@media (max-width: 320px) {
+    .button {
+        @apply bg-button-orange text-center font-extrabold text-xl py-1.5 px-4 rounded-full mt-12 w-4/5;
+    }
 }
