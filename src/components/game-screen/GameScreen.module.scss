@@ -19,11 +19,11 @@
 }
 
 .helper_styles{
-    @apply text-2xl font-bold text-white bg-green p-2 rounded-lg mr-5 ml-12;
+    @apply text-2xl font-bold text-white bg-green p-2 rounded-lg;
 }
 
 .timer_styles {
-    @apply text-2xl text-white font-bold bg-green p-2 rounded-lg ml-auto mr-5;
+    @apply text-2xl text-white font-bold bg-green p-2 rounded-lg ml-auto;
 }
 
 
@@ -63,20 +63,32 @@
     .map {
         height: 625px;
     }
+    .helper_styles {
+       margin-left: 20rem;
+    }
+    .timer_styles {
+        margin-left: 1rem;
+    }
 }
 
 @media (max-width: 1280px) {
     .map {
         height: 550px;
     }
-    .note_styles {
-        font-size: 1.5rem;
+    .question_styles {
+        font-size: 1.75rem;
+        margin-right: 0.1rem;
     }
     .helper_styles {
+        margin-left: 20rem;
         font-size: 1.5rem;
     }
     .timer_styles {
+        margin-left: 1rem;
         font-size: 1.5rem;
+    }
+    .note_styles {
+        font-size: 1.25rem;
     }
 }
 
@@ -84,14 +96,20 @@
     .map {
         height: 525px;
     }
-    .note_styles {
-        font-size: 1.5rem;
+    .question_styles {
+        font-size: 1.75rem;
+        margin-right: 0.1rem;
     }
     .helper_styles {
-        font-size: 1.5rem;
+        margin-left: 3rem;
+        font-size: 1.25rem;
     }
     .timer_styles {
-        font-size: 1.5rem;
+        margin-left: 1rem;
+        font-size: 1.25rem;
+    }
+    .note_styles {
+        font-size: 1.25rem;
     }
 }
 
@@ -102,18 +120,18 @@
     .question_styles {
         display: flex;
         flex-direction: column;
-        font-size: 2rem;
+        font-size: 1.5rem;
         margin-right: 0.5rem;
     }
     .note_styles {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
     .helper_styles {
         margin-right: 0.25rem;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
     .timer_styles {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 }
 
@@ -124,7 +142,7 @@
     .question_styles {
         display: flex;
         flex-direction: column;
-        font-size: 2rem;
+        font-size: 1.5rem;
         margin-right: 0.5rem;
     }
     .note_styles {
@@ -150,7 +168,7 @@
     .question_styles {
         display: flex;
         flex-direction: column;
-        font-size: 2rem;
+        font-size: 1.25rem;
         margin-right: 0.5rem;
     }
     .note_styles {
@@ -176,7 +194,7 @@
     .question_styles {
         display: flex;
         flex-direction: column;
-        font-size: 2rem;
+        font-size: 1rem;
         margin-right: 0.5rem;
     }
     .note_styles {
