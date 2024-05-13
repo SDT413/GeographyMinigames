@@ -329,9 +329,9 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
                    'padding: 12px;' +
                    '">' + text + '</div>')
                .addTo(map.current!);
-           setTimeout(() => {
+           /*setTimeout(() => {
                mark.remove();
-           }, 3000);
+           }, 3000);*/
         }
         else {
             if (map.current?.getLayer('mark')) {
@@ -353,9 +353,9 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
                     'padding: 12px;' +
                     '">' + text + '</div>')
                 .addTo(map.current!);
-           setTimeout(() => {
+           /*setTimeout(() => {
                mark.remove();
-           }, 3000);
+           }, 3000);*/
             }
         const markDocument = document.getElementsByClassName('mapboxgl-popup-content');
         if (markDocument) {
