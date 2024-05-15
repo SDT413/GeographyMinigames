@@ -48,6 +48,9 @@ const ModesSelection: FC = () => {
                     }} selected={config.mode === "currencies"}>
                         Currencies
                     </MenuButton>
+                    <MenuButton addStyles={styles.wideButton} link={'/game/' + config.mode}>
+                        Start Game
+                    </MenuButton>
                     <MenuButton addStyles={styles.wideButton} link={'/'} onClick={
                         () => {
                             console.log(config)
