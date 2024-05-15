@@ -6,10 +6,10 @@ export const PrepareMapStyle = (gameMode: string) => {
         return "mapbox://styles/dk413/clvwxtcj3010z01pc0crr52to"
     }
     if (gameMode === "currencies") {
-        return "mapbox://styles/dk413/clv9sggnm00qx01qveclgctu2"
+        return "mapbox://styles/dk413/clw8a0a4h002d01qsbjpp9lhr"
     }
     if (gameMode === "shapes") {
-        return "mapbox://styles/dk413/clv9sggnm00qx01qveclgctu2"
+        return "mapbox://styles/dk413/clw8a0a4h002d01qsbjpp9lhr"
     }
     return "mapbox://styles/mapbox/streets-v12"
 }

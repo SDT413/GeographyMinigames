@@ -23,6 +23,8 @@
     "clsx": "^2.1.0",
     "country-data": "^0.0.31",
     "framer-motion": "^11.0.25",
+    "geojson-places": "^1.0.8",
+    "geos-major": "^1.2.1",
     "get-countries-info": "^1.2.1",
     "mapbox-gl": "^3.3.0",
     "next": "14.1.4",
