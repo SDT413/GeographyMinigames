@@ -15,9 +15,9 @@ export const DiffToNumbersConverter = (config: IConfigInitialState) => {
     let helperPunishmentMediumModifier = 4;
     let helperPunishmentHardModifier = 5;
 
-    let helperEfficiencyEasyModifier = config.mode === "states" ? 250 : 1000;
-    let helperEfficiencyMediumModifier = config.mode === "states" ? 500 : 1500;
-    let helperEfficiencyHardModifier = config.mode === "states" ? 750 : 2000;
+    let helperEfficiencyEasyModifier = config.mode === "states" ? 100 : 1000;
+    let helperEfficiencyMediumModifier = config.mode === "states" ? 250 : 1500;
+    let helperEfficiencyHardModifier = config.mode === "states" ? 500 : 2000;
 
     let timeEasyModifier = 60;
     let timeMediumModifier = 30;

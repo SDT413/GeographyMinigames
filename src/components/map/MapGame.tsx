@@ -15,6 +15,7 @@ import {useActions} from "@/hooks/useActions";
 import axios from "axios";
 import {WhatUSAStateCordinates} from "@/utils/WhatUSAStateCordinates";
 import {useConfig} from "@/hooks/useConfig";
+import {CoordinatesOfUSAState} from "@/utils/CoordinatesOfUSAState";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZGs0MTMiLCJhIjoiY2xmN2I0Z3ppMDBwZjN2cDcxMXBpeW92MyJ9.P4O2mbHyviXylMkyk1C3zw';
 
@@ -55,6 +56,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
     const rightAnswer = typed ? typed.correct_answer : "";
     const typedShape = currentQuestion as IShape;
     const rightShape = typedShape ? typedShape.place : "";
+    const [mapClicked, setMapClickedTrigger] = useState(false);
     const stateSource = {
         type: "geojson",
         data: {
@@ -163,6 +165,28 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         }
     }, [useHelper, helperSize]);
 
+    //create popup with right country name when user clicks on the map
+    useEffect(() => {
+        console.log('checkToCreatePopup:', rightAnswer, rightShape, mapClicked)
+         if (!rightAnswer && !rightShape) return;
+         if (!mapClicked) return;
+            setMapClickedTrigger(false);
+         const isAnswerRight = rightAnswer === getCountryName(alpha3) || rightShape === getCountryName(alpha3);
+         if (isAnswerRight) { return; }
+
+        if (gameMode === "shapes" && rightShape) {
+            getLatLngByCountryAndCreatePopup(rightShape);
+        }
+        if (gameMode === "states" && rightShape) {
+            getLatLngByStateAndCreatePopup(rightShape);
+        }
+        if (gameMode === "countries" && rightAnswer) {
+            getLatLngByCountryAndCreatePopup(rightAnswer);
+        }
+        if (gameMode === "currencies" && rightAnswer) {
+            getLatLngByCountryAndCreatePopup(rightAnswer);
+        }
+    }, [rightAnswer, rightShape, mapClicked]);
 
 
     const addCountryLayerByAnswer = (answer: string, alpha3: string) => {
@@ -204,18 +228,10 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             );
         }
     }
-    const addStateLayerByAnswer = (answer: string) => {
-
-    }
 
     const setCountryFilterAndLayer = (answer: string, alpha3: string) => {
         addCountryLayerByAnswer(answer, alpha3);
         map.current?.setFilter('countries', ['in', 'ADM0_A3_IS'].concat([alpha3]));
-    }
-
-    const setStateFilterAndLayer = (answer: string) => {
-        addStateLayerByAnswer(answer);
-        map.current?.setFilter('states', ['in', 'name'].concat([answer]));
     }
 
     const ShowCircleAroundCountry = async (country: string) => {
@@ -267,7 +283,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         if (onClick){
             onClick();
         }
-
+        setMapClickedTrigger(true);
         /*console.log('gameMode:', gameMode);*/
         if (gameMode === "shapes" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
@@ -281,7 +297,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
             setAnswer(savedState);
             console.log('savedState:', savedState, 'actualChosenState:', getUSAState(lng, lat).actualChosenState);
             setActualChosenState!(getUSAState(lng, lat).actualChosenState);
-           /* createPopup(lat, lng, getUSAState(lng, lat), getUSAState(lng, lat));*/
+            /*createPopup(lat, lng, getUSAState(lng, lat).state, getUSAState(lng, lat).actualChosenState);*/
         }
         if (gameMode === "countries" && setAnswer) {
             console.log('setAnswer:', getCountryName(alpha3));
@@ -376,6 +392,7 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         if (country.name === "Congo, The Democratic Republic Of The") result = "Congo";
         if (country.name === "Bolivia, Plurinational State Of") result = "Bolivia";
         if (country.name === "Venezuela, Bolivarian Republic Of") result = "Venezuela";
+        if (country.name === "Macedonia, The Former Yugoslav Republic Of") result = "Macedonia";
         return result;
     }
 
@@ -385,6 +402,27 @@ const Map: FC<MapProps> = ({addStyles, onClick, mapStyle, setAnswer, gameMode, u
         console.log('result:', result, "lat:", result[1], "lng:", result[0]);
         let latlng = [result[1], result[0]];
         return latlng;
+    }
+
+    const getLatLngByCountryAndCreatePopup = (country: string) => {
+        console.log('country:', country);
+        let check = infoCountries({name: country}, 'latlng');
+        if (check.length === 0) {
+            return;
+        }
+        let result = infoCountries({name: country}, 'latlng')[0];
+        console.log('result:', result, "lat:", result[0], "lng:", result[1]);
+        createPopup(result[0], result[1], country, country)
+        let latlng = [result[0], result[1]];
+        return latlng;
+    }
+
+    const getLatLngByStateAndCreatePopup = (state: string) => {
+        const {lat, lng} = CoordinatesOfUSAState(state);
+        if (!lat || !lng) {
+            return;
+        }
+        createPopup(lat, lng, state, state);
     }
 
     const RandomizeLatLng = (country: string) => {
