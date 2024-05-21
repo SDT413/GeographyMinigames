@@ -1,0 +1,8 @@
+.layout > main {
+  @apply bg-black py-8 px-10;
+}
+.layout .content {
+  @apply relative;
+}
+
+/*# sourceMappingURL=LayoutEnd.module.css.map */

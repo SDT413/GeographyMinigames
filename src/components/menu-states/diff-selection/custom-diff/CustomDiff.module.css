@@ -1,0 +1,21 @@
+.container {
+  display: grid;
+  grid-template-columns: 3fr 3fr;
+  grid-gap: 20px;
+  position: fixed;
+}
+.container .buttons {
+  grid-column: 1/2;
+}
+
+.row1 {
+  @apply flex;
+  justify-content: space-between;
+}
+
+.row2 {
+  @apply flex;
+  justify-content: space-between;
+}
+
+/*# sourceMappingURL=CustomDiff.module.css.map */
