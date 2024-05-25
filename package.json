@@ -37,6 +37,7 @@
     "redux-persist": "^6.0.0",
     "redux-ts": "^4.3.0",
     "sass": "^1.74.1",
+    "sharp": "^0.33.4",
     "which-country": "^1.0.0",
     "world-countries-capitals": "^3.4.0"
   },
