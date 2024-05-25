@@ -87,7 +87,7 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         'background': "url('/assets/images/background.jpg')",
         'game-background': "url('/assets/images/game.jpg')",
-        'end-background': "url(/assets/images/end.jpg')",
+        'end-background': "url('/assets/images/end.jpg')",
       },
     },
   },
