@@ -6,6 +6,7 @@ import {useConfig} from "@/hooks/useConfig";
 import {useActions} from "@/hooks/useActions";
 import CustomDiffButton from "@/components/UI/menu-button/custom-diff button/CustomDiffButton";
 import CustomDiffRow from "@/components/menu-states/diff-selection/custom-diff/custom-diff-row/CustomDiffRow";
+import LinkButton from "@/components/UI/menu-button/link-button/LinkButton";
 
 const CustomDiff: FC = () => {
     const config = useConfig()
@@ -22,12 +23,12 @@ const CustomDiff: FC = () => {
                 <CustomDiffRow setParam={setCustomTime} paramName={"Time to answer"} easySelectedParam={config.time === "easy"} mediumSelectedParam={config.time === "medium"} hardSelectedParam={config.time === "hard"} />
                 <CustomDiffRow setParam={setCustomQuestionsAmount} paramName={"Popups amount"} easySelectedParam={config.questionsAmount === "easy"} mediumSelectedParam={config.questionsAmount === "medium"} hardSelectedParam={config.questionsAmount === "hard"} />
 
-                <MenuButton addStyles={""} link={'/'} onClick={
+                <LinkButton link={'/'} onClick={
                     () => {
                         console.log(config)
                     }}>
                     Back to main menu
-                </MenuButton>
+                </LinkButton>
             </GridLayout>
         </div>
     );

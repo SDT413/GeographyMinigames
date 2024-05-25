@@ -67,8 +67,8 @@ const MenuButton: FC<PropsWithChildren<Props>> = ({children, addStyles, onClick,
     return (
         <>
             { link && selected ?
-            <Link href={link}>
-                <button className={classNames(styles.button, addStyles, styles.selected)}
+            <Link href={link} className={classNames(styles.button, addStyles, styles.selected)}>
+                <button
                         onClick={onClick}>
                     {children}
                     <svg width={starWidth} height={starHeight} viewBox="0 0 152 141" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -80,8 +80,8 @@ const MenuButton: FC<PropsWithChildren<Props>> = ({children, addStyles, onClick,
             </Link>
             :
             link && !selected ?
-            <Link href={link}>
-            <button className={classNames(styles.button, addStyles)}
+            <Link href={link} className={classNames(styles.button, addStyles)}>
+            <button
                     onClick={onClick}>
                 {children}
             </button>
