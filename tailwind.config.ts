@@ -85,7 +85,7 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        'background': "url('public/assets/images/background.jpg')",
+        'background': "url('/assets/images/background.jpg')",
         'game-background': "url('/assets/images/game.jpg')",
         'end-background': "url('/assets/images/end.jpg')",
       },
