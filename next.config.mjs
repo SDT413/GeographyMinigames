@@ -10,6 +10,8 @@ const nextConfig = {
                                 pathname: '**',
                         },
                 ],
+                loader: "custom",
+                loaderFile: './ImageLoader.ts'
         },
 };
 
