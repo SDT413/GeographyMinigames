@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import ImageProduction from "./ImageProduction";
 
 const constants = {
   red: '#F23C3D',
@@ -85,9 +86,12 @@ const config: Config = {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-        'background': "url('/assets/images/background.jpg')",
+       /* 'background': "url('/assets/images/background.jpg')",
         'game-background': "url('/assets/images/game.jpg')",
-        'end-background': "url('/assets/images/end.jpg')",
+        'end-background': "url('/assets/images/end.jpg')",*/
+        'background': ImageProduction('/assets/images/background.jpg'),
+        'game-background': ImageProduction('/assets/images/game.jpg'),
+        'end-background': ImageProduction('/assets/images/end.jpg'),
       },
     },
   },
