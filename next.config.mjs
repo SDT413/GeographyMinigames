@@ -2,8 +2,14 @@
 const nextConfig = {
         output: "export",
         images: {
-                loader: "custom",
-                loaderFile: './ImageLoader.ts'
+                remotePatterns: [
+                        {
+                                protocol: 'https',
+                                hostname: '**',
+                                port: '',
+                                pathname: '**',
+                        },
+                ],
         },
 };
 
