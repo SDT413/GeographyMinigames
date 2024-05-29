@@ -25,7 +25,6 @@
 
 .wideButton {
   @apply flex;
-  width: 600px;
 }
 
 @media (max-width: 1920px) {
