@@ -34,7 +34,18 @@
 }
 
 @media (max-width: 640px) {
-
+    .container {
+        grid-template-columns: 1fr;
+    }
+    .buttons {
+        grid-column: 1 / 2;
+    }
+    .row1 {
+        @apply flex-col;
+    }
+    .row2 {
+        @apply flex-col;
+    }
 }
 
 @media (max-width: 480px) {
