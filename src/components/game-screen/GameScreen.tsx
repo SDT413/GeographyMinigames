@@ -50,15 +50,19 @@ const GameScreen: FC<Props> = ({gameMode}) => {
     const state_range = mode_diff === "easy" ? 5 : mode_diff === "medium" ? 3 : 2
     const state_zoom = window.innerWidth >= 1980 ? 4.1 :
         window.innerWidth >= 1680 ? 4 :
-            window.innerWidth >= 1280 ? 3.9 :
-                window.innerWidth >= 1024 ? 3.8 :
-                    window.innerWidth >= 800 ? 3.7 :
-                        window.innerWidth >= 768 ? 3.6 :
-                            window.innerWidth >= 640 ? 3.5 :
-                                window.innerWidth >= 480 ? 3.4 :
-                                    window.innerWidth >= 375 ? 3.3 :
-                                        window.innerWidth >= 360 ? 3.2 :
-                                            window.innerWidth >= 320 ? 3.1 : 3.1
+            window.innerWidth >= 1280 ? 3.5 :
+                window.innerWidth >= 1024 ? 3.4 :
+                    window.innerWidth >= 800 ? 3.3 :
+                        window.innerWidth >= 768 ? 3.2 :
+                            window.innerWidth >= 640 ? 3.1 :
+                                window.innerWidth >= 480 ? 2.4 :
+                                    window.innerWidth >= 375 ? 2.3 :
+                                        window.innerWidth >= 360 ? 2 :
+                                            window.innerWidth >= 320 ? 1.9 : 1.9;
+
+    const param_lng = window.innerWidth >= 1980 ? -100.96275568376927 : -98;
+
+    const param_lat = window.innerWidth >= 1980 ? 39.631808154818856 : 39.5;
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -260,7 +264,7 @@ const GameScreen: FC<Props> = ({gameMode}) => {
                             <>
                                 <MapGame addStyles={styles.map} mapStyle={mapStyle} setAnswer={setAnswer} gameMode={gameMode} useHelper={useHelper} setUseHelper={setUseHelper}
                                          helperSize={helperEfficiency} setMapClicked={setMapClicked} currentTime={timer} setTimer={setTimer} helperPunishment={helperPunishment}
-                                         param_lng={-100.96275568376927} param_lat={39.631808154818856} param_zoom={state_zoom} fixed={true} setActualChosenState={setActualChosenState}/>
+                                         param_lng={param_lng} param_lat={param_lat} param_zoom={state_zoom} fixed={true} setActualChosenState={setActualChosenState}/>
                                 <br/>
                                 <div className={styles.note_styles}>
                                     <b style={
